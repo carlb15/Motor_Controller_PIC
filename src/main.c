@@ -272,6 +272,8 @@ void main(void) {
     IPR1bits.TMR1IP = 0;
     // USART RX interrupt
     IPR1bits.RCIP = 0;
+    // USART TX interrupt
+    IPR1bits.TXIP = 0;
     // I2C interrupt
     IPR1bits.SSPIP = 1;
 
@@ -309,8 +311,15 @@ void main(void) {
     Open1USART(USART_TX_INT_OFF & USART_RX_INT_ON & USART_ASYNCH_MODE & USART_EIGHT_BIT &
             USART_CONT_RX & USART_BRGH_LOW, 0x19);
 #else
+    // Configuration Details:
+    // Solve for SPBRG = ((48Mhz/19200)/16)-1 = 155
+    // Calculated Baud Rate = 48MHz / (4*(624 + 1)) = 19200
+    // Error (19200 - 19200) / 19200 = 0
     OpenUSART(USART_TX_INT_OFF & USART_RX_INT_ON & USART_ASYNCH_MODE & USART_EIGHT_BIT &
-            USART_CONT_RX & USART_BRGH_LOW, 0x19);
+            USART_CONT_RX & USART_BRGH_HIGH, 155);
+    BAUDCONbits.BRG16 = 0;
+    RCSTAbits.SPEN = 1;
+    RCSTAbits.CREN = 1;
 #endif
 #endif
 
@@ -360,6 +369,11 @@ void main(void) {
                 case MSGT_TIMER0:
                 {
                     timer0_lthread(&t0thread_data, msgtype, length, msgbuffer);
+                    break;
+                };
+                case MSGT_I2C_DATA:
+                {
+                    uart_lthread(&uthread_data, msgtype, length, msgbuffer);
                     break;
                 };
                 default:

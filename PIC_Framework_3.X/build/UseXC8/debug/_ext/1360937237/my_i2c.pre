@@ -6004,7 +6004,7 @@ extern char * strichr(const char *, int);
 extern char * strrchr(const char *, int);
 extern char * strrichr(const char *, int);
 
-# 14 "../src/my_i2c.c"
+# 13 "../src/my_i2c.c"
 static i2c_comm *ic_ptr;
 
 signed char length;
@@ -6017,7 +6017,7 @@ signed char status;
 
 unsigned char msgbuffer[20];
 
-# 31
+# 30
 void start_i2c_slave_reply(unsigned char length, unsigned char *msg) {
 
 for (ic_ptr->outbuflen = 0; ic_ptr->outbuflen < length; ic_ptr->outbuflen++) {
@@ -6059,7 +6059,7 @@ ic_ptr->status = 0x6;
 }
 }
 
-# 78
+# 77
 void i2c_int_handler() {
 unsigned char i2c_data;
 unsigned char data_read = 0;
@@ -6207,7 +6207,12 @@ ic_ptr->error_count++;
 ic_ptr->error_code = 0x7;
 }
 
-if (msg_ready) {
+if (msg_ready){
+
+ic_ptr->buffer[ic_ptr->buflen] = ic_ptr->event_count;
+ToMainHigh_sendmsg(ic_ptr->buflen + 1, 40, (void *) ic_ptr->buffer);
+ic_ptr->buflen = 0;
+} else if (msg_ready && msgbuffer[0] == 0x01) {
 ic_ptr->buffer[ic_ptr->buflen] = ic_ptr->event_count;
 ToMainHigh_sendmsg(ic_ptr->buflen + 1, 40, (void *) ic_ptr->buffer);
 ic_ptr->buflen = 0;
@@ -6222,10 +6227,9 @@ if (msg_to_send) {
 
 readMessages();
 }
-
 }
 
-# 247
+# 250
 void init_i2c(i2c_comm * ic) {
 ic_ptr = ic;
 ic_ptr->buflen = 0;
@@ -6239,7 +6243,7 @@ ic_ptr->error_count = 0;
 
 void i2c_configure_slave(unsigned char addr) {
 
-# 270
+# 273
 TRISCbits.TRISC3 = 1;
 TRISCbits.TRISC4 = 1;
 
@@ -6258,13 +6262,16 @@ SSPSTAT |= 0b10000000;
 TRISCbits.TRISC3 = 1;
 TRISCbits.TRISC4 = 1;
 
-# 307
+# 310
 SSPCON2bits.SEN = 1;
 SSPCON1 |= 0b00100000;
 
 }
 
 void readMessages() {
+
+
+
 
 unsigned char buf[5];
 buf[0] = 0x1;
@@ -6276,5 +6283,5 @@ buf[4] = 0x5;
 length = 5;
 start_i2c_slave_reply(length, buf);
 
-# 351
+# 357
 }

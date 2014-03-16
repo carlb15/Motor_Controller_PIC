@@ -5975,11 +5975,9 @@ int data;
 
 int timer0_lthread(timer0_thread_struct *,int,int,unsigned char*);
 
-# 8 "../src/timer0_thread.c"
+# 9 "../src/timer0_thread.c"
 int timer0_lthread(timer0_thread_struct *tptr, int msgtype, int length, unsigned char *msgbuffer) {
 unsigned int *msgval;
 
 msgval = (unsigned int *) msgbuffer;
-
-# 19
 }

@@ -6222,10 +6222,9 @@ if (msg_to_send) {
 
 readMessages();
 }
-
 }
 
-# 246
+# 245
 void init_i2c(i2c_comm * ic) {
 ic_ptr = ic;
 ic_ptr->buflen = 0;
@@ -6239,7 +6238,7 @@ ic_ptr->error_count = 0;
 
 void i2c_configure_slave(unsigned char addr) {
 
-# 269
+# 268
 TRISCbits.TRISC3 = 1;
 TRISCbits.TRISC4 = 1;
 
@@ -6258,13 +6257,16 @@ SSPSTAT |= 0b10000000;
 TRISCbits.TRISC3 = 1;
 TRISCbits.TRISC4 = 1;
 
-# 306
+# 305
 SSPCON2bits.SEN = 1;
 SSPCON1 |= 0b00100000;
 
 }
 
 void readMessages() {
+
+
+
 
 unsigned char buf[5];
 buf[0] = 0x1;
@@ -6276,5 +6278,5 @@ buf[4] = 0x5;
 length = 5;
 start_i2c_slave_reply(length, buf);
 
-# 350
+# 352
 }

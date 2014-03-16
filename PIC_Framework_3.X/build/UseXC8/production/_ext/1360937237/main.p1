@@ -1,8 +1,8 @@
 Version 3.2 HI-TECH Software Intermediate Code
 [p mainexit ]
-"10 ../src/my_uart.h
-[s S584 `uc -> 4 `i `uc 1 ]
-[n S584 __uart_comm buffer buflen ]
+"11 ../src/my_uart.h
+[s S584 `uc -> 4 `i `uc 1 `uc 1 ]
+[n S584 __uart_comm Tx_buffer Tx_buflen msg_length ]
 "7 ../src/my_i2c.h
 [s S585 `uc -> 10 `i `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc -> 10 `i `uc 1 `uc 1 `uc 1 ]
 [n S585 __i2c_comm buffer buflen event_count status error_code error_count outbuffer outbuflen outbufind slave_addr ]
@@ -23,7 +23,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [n S217 . . ]
 "3559
 [v _OSCTUNEbits `VS217 ~T0 @X0 0 e@3995 ]
-"15 ../src/my_uart.h
+"17 ../src/my_uart.h
 [v _init_uart_recv `(v ~T0 @X0 0 ef1`*S584 ]
 "37 ../src/my_i2c.h
 [v _init_i2c `(v ~T0 @X0 0 ef1`*S585 ]
@@ -67,6 +67,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _ToMainHigh_recvmsg `(c ~T0 @X0 0 ef3`uc`*uc`*v ]
 "6 ../src/timer0_thread.h
 [v _timer0_lthread `(i ~T0 @X0 0 ef4`*S588`i`i`*uc ]
+"6 ../src/uart_thread.h
+[v _uart_lthread `(i ~T0 @X0 0 ef4`*S586`i`i`*uc ]
 "58 ../src/messages.h
 [v _ToMainLow_recvmsg `(c ~T0 @X0 0 ef3`uc`*uc`*v ]
 "7 ../src/timer1_thread.h
@@ -4699,12 +4701,14 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;messages.h: 72: signed char FromMainLow_recvmsg(unsigned char,unsigned char *,void *);
 [; ;messages.h: 78: signed char FromMainHigh_sendmsg(unsigned char,unsigned char,void *);
 [; ;messages.h: 79: signed char FromMainHigh_recvmsg(unsigned char,unsigned char *,void *);
-[; ;my_uart.h: 10: typedef struct __uart_comm {
-[; ;my_uart.h: 11: unsigned char buffer[4];
-[; ;my_uart.h: 12: unsigned char buflen;
-[; ;my_uart.h: 13: } uart_comm;
-[; ;my_uart.h: 15: void init_uart_recv(uart_comm *);
-[; ;my_uart.h: 16: void uart_recv_int_handler(void);
+[; ;my_uart.h: 11: typedef struct __uart_comm {
+[; ;my_uart.h: 12: unsigned char Tx_buffer[4];
+[; ;my_uart.h: 13: unsigned char Tx_buflen;
+[; ;my_uart.h: 14: unsigned char msg_length;
+[; ;my_uart.h: 15: } uart_comm;
+[; ;my_uart.h: 17: void init_uart_recv(uart_comm *);
+[; ;my_uart.h: 18: void uart_send_int_handler();
+[; ;my_uart.h: 19: void uart_retrieve_buffer(int length, unsigned char*);
 [; ;my_i2c.h: 7: typedef struct __i2c_comm {
 [; ;my_i2c.h: 8: unsigned char buffer[10];
 [; ;my_i2c.h: 9: unsigned char buflen;
@@ -4916,110 +4920,126 @@ Version 3.2 HI-TECH Software Intermediate Code
 "364
 }
 [; ;main.c: 364: };
-[; ;main.c: 365: default:
+[; ;main.c: 365: case 40:
 "365
 [e :U 599 ]
 [; ;main.c: 366: {
 "366
 {
+[; ;main.c: 367: uart_lthread(&uthread_data, msgtype, length, msgbuffer);
+"367
+[e ( _uart_lthread (4 , , , &U _uthread_data -> _msgtype `i -> _length `i &U _msgbuffer ]
 [; ;main.c: 368: break;
 "368
 [e $U 596  ]
 "369
 }
 [; ;main.c: 369: };
+[; ;main.c: 370: default:
 "370
+[e :U 600 ]
+[; ;main.c: 371: {
+"371
+{
+[; ;main.c: 373: break;
+"373
+[e $U 596  ]
+"374
 }
-[; ;main.c: 370: };
+[; ;main.c: 374: };
+"375
+}
+[; ;main.c: 375: };
 [e $U 596  ]
 "359
 [e :U 597 ]
 [e [\ _msgtype , $ -> -> 10 `i `uc 598
- 599 ]
-"370
+ , $ -> -> 40 `i `uc 599
+ 600 ]
+"375
 [e :U 596 ]
-"371
+"376
 }
 [e :U 595 ]
-[; ;main.c: 371: }
-[; ;main.c: 374: length = ToMainLow_recvmsg(10, &msgtype, (void *) msgbuffer);
-"374
-[e = _length ( _ToMainLow_recvmsg (3 , , -> -> 10 `i `uc &U _msgtype -> &U _msgbuffer `*v ]
-[; ;main.c: 375: if (length < 0) {
-"375
-[e $ ! < -> _length `i -> 0 `i 600  ]
-{
-[; ;main.c: 377: if (length != -4) {
-"377
-[e $ ! != -> _length `i -U -> 4 `i 601  ]
-{
+[; ;main.c: 376: }
+[; ;main.c: 379: length = ToMainLow_recvmsg(10, &msgtype, (void *) msgbuffer);
 "379
-}
-[e :U 601 ]
+[e = _length ( _ToMainLow_recvmsg (3 , , -> -> 10 `i `uc &U _msgtype -> &U _msgbuffer `*v ]
+[; ;main.c: 380: if (length < 0) {
 "380
-}
-[; ;main.c: 379: }
-[; ;main.c: 380: } else {
-[e $U 602  ]
-[e :U 600 ]
+[e $ ! < -> _length `i -> 0 `i 601  ]
 {
-[; ;main.c: 381: switch (msgtype) {
-"381
-[e $U 604  ]
-{
-[; ;main.c: 382: case 11:
+[; ;main.c: 382: if (length != -4) {
 "382
-[e :U 605 ]
-[; ;main.c: 383: {
-"383
+[e $ ! != -> _length `i -U -> 4 `i 602  ]
 {
-[; ;main.c: 384: timer1_lthread(&t1thread_data, msgtype, length, msgbuffer);
 "384
-[e ( _timer1_lthread (4 , , , &U _t1thread_data -> _msgtype `i -> _length `i &U _msgbuffer ]
-[; ;main.c: 385: break;
-"385
-[e $U 603  ]
-"386
-}
-[; ;main.c: 386: };
-[; ;main.c: 387: case 30:
-"387
-[e :U 606 ]
-[; ;main.c: 389: default:
-"389
-[e :U 607 ]
-[; ;main.c: 390: {
-"390
-{
-[; ;main.c: 392: break;
-"392
-[e $U 603  ]
-"393
-}
-[; ;main.c: 393: };
-"394
-}
-[; ;main.c: 394: };
-[e $U 603  ]
-"381
-[e :U 604 ]
-[e [\ _msgtype , $ -> -> 11 `i `uc 605
- , $ -> -> 30 `i `uc 606
- 607 ]
-"394
-[e :U 603 ]
-"395
 }
 [e :U 602 ]
-"396
+"385
+}
+[; ;main.c: 384: }
+[; ;main.c: 385: } else {
+[e $U 603  ]
+[e :U 601 ]
+{
+[; ;main.c: 386: switch (msgtype) {
+"386
+[e $U 605  ]
+{
+[; ;main.c: 387: case 11:
+"387
+[e :U 606 ]
+[; ;main.c: 388: {
+"388
+{
+[; ;main.c: 389: timer1_lthread(&t1thread_data, msgtype, length, msgbuffer);
+"389
+[e ( _timer1_lthread (4 , , , &U _t1thread_data -> _msgtype `i -> _length `i &U _msgbuffer ]
+[; ;main.c: 390: break;
+"390
+[e $U 604  ]
+"391
+}
+[; ;main.c: 391: };
+[; ;main.c: 392: case 30:
+"392
+[e :U 607 ]
+[; ;main.c: 394: default:
+"394
+[e :U 608 ]
+[; ;main.c: 395: {
+"395
+{
+[; ;main.c: 397: break;
+"397
+[e $U 604  ]
+"398
+}
+[; ;main.c: 398: };
+"399
+}
+[; ;main.c: 399: };
+[e $U 604  ]
+"386
+[e :U 605 ]
+[e [\ _msgtype , $ -> -> 11 `i `uc 606
+ , $ -> -> 30 `i `uc 607
+ 608 ]
+"399
+[e :U 604 ]
+"400
+}
+[e :U 603 ]
+"401
 }
 [e :U 590 ]
 "341
 [e $U 591  ]
 [e :U 592 ]
-[; ;main.c: 395: }
-[; ;main.c: 396: }
-[; ;main.c: 397: }
-"397
+[; ;main.c: 400: }
+[; ;main.c: 401: }
+[; ;main.c: 402: }
+"402
 [e :UE 589 ]
 }

@@ -4607,23 +4607,23 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;timer0_thread.h: 3: int data;
 [; ;timer0_thread.h: 4: } timer0_thread_struct;
 [; ;timer0_thread.h: 6: int timer0_lthread(timer0_thread_struct *,int,int,unsigned char*);
-"8 ../src/timer0_thread.c
+"9 ../src/timer0_thread.c
 [v _timer0_lthread `(i ~T0 @X0 1 ef4`*S582`i`i`*uc ]
 {
-[; ;timer0_thread.c: 8: int timer0_lthread(timer0_thread_struct *tptr, int msgtype, int length, unsigned char *msgbuffer) {
+[; ;timer0_thread.c: 9: int timer0_lthread(timer0_thread_struct *tptr, int msgtype, int length, unsigned char *msgbuffer) {
 [e :U _timer0_lthread ]
 [v _tptr `*S582 ~T0 @X0 1 r1 ]
 [v _msgtype `i ~T0 @X0 1 r2 ]
 [v _length `i ~T0 @X0 1 r3 ]
 [v _msgbuffer `*uc ~T0 @X0 1 r4 ]
 [f ]
-"9
+"10
 [v _msgval `*ui ~T0 @X0 1 a ]
-[; ;timer0_thread.c: 9: unsigned int *msgval;
-[; ;timer0_thread.c: 11: msgval = (unsigned int *) msgbuffer;
-"11
+[; ;timer0_thread.c: 10: unsigned int *msgval;
+[; ;timer0_thread.c: 12: msgval = (unsigned int *) msgbuffer;
+"12
 [e = _msgval -> _msgbuffer `*ui ]
-[; ;timer0_thread.c: 19: }
-"19
+[; ;timer0_thread.c: 13: }
+"13
 [e :UE 583 ]
 }

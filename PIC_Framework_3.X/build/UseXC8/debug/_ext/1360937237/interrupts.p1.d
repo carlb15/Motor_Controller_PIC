@@ -7,5 +7,4 @@
 ../src/my_i2c.h  \
 ../src/maindefs.h  \
 ../src/messages.h  \
-../src/interrupts.h  \
-../src/adc_int_handler.h 
+../src/interrupts.h 

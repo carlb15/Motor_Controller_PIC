@@ -47,8 +47,16 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _SleepIfOkay `(v ~T0 @X0 0 ef ]
 "12 ../src/user_interrupts.h
 [v _timer1_int_handler `(v ~T0 @X0 0 ef ]
-"16 ../src/my_uart.h
-[v _uart_recv_int_handler `(v ~T0 @X0 0 ef ]
+[s S220 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S220 . TMR1IE TMR2IE CCP1IE SSP1IE TXIE RCIE ADIE PSPIE ]
+[s S221 :3 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S221 . . SSPIE TX1IE RC1IE ]
+[u S219 `S220 1 `S221 1 ]
+[n S219 . . . ]
+"3591 C:\Program Files\Microchip\xc8\v1.30\include\pic18f45j10.h
+[v _PIE1bits `VS219 ~T0 @X0 0 e@3997 ]
+"18 ../src/my_uart.h
+[v _uart_send_int_handler `(v ~T0 @X0 0 ef ]
 [; ;htc.h: 22: extern void __builtin_software_breakpoint(void);
 [; ;pic18f45j10.h: 44: extern volatile unsigned char PORTA @ 0xF80;
 "46 C:\Program Files\Microchip\xc8\v1.30\include\pic18f45j10.h
@@ -4649,12 +4657,14 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;messages.h: 72: signed char FromMainLow_recvmsg(unsigned char,unsigned char *,void *);
 [; ;messages.h: 78: signed char FromMainHigh_sendmsg(unsigned char,unsigned char,void *);
 [; ;messages.h: 79: signed char FromMainHigh_recvmsg(unsigned char,unsigned char *,void *);
-[; ;my_uart.h: 10: typedef struct __uart_comm {
-[; ;my_uart.h: 11: unsigned char buffer[4];
-[; ;my_uart.h: 12: unsigned char buflen;
-[; ;my_uart.h: 13: } uart_comm;
-[; ;my_uart.h: 15: void init_uart_recv(uart_comm *);
-[; ;my_uart.h: 16: void uart_recv_int_handler(void);
+[; ;my_uart.h: 11: typedef struct __uart_comm {
+[; ;my_uart.h: 12: unsigned char Tx_buffer[4];
+[; ;my_uart.h: 13: unsigned char Tx_buflen;
+[; ;my_uart.h: 14: unsigned char msg_length;
+[; ;my_uart.h: 15: } uart_comm;
+[; ;my_uart.h: 17: void init_uart_recv(uart_comm *);
+[; ;my_uart.h: 18: void uart_send_int_handler();
+[; ;my_uart.h: 19: void uart_retrieve_buffer(int length, unsigned char*);
 [; ;my_i2c.h: 7: typedef struct __i2c_comm {
 [; ;my_i2c.h: 8: unsigned char buffer[10];
 [; ;my_i2c.h: 9: unsigned char buflen;
@@ -4804,9 +4814,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 "49
 [e :UE 593 ]
 }
-[v F5106 `(v ~T0 @X0 1 tf ]
+[v F5109 `(v ~T0 @X0 1 tf ]
 "87
-[v _InterruptHandlerHigh `IF5106 ~T0 @X0 1 e ]
+[v _InterruptHandlerHigh `IF5109 ~T0 @X0 1 e ]
 {
 [; ;interrupts.c: 81: interrupt
 [; ;interrupts.c: 87: void InterruptHandlerHigh() {
@@ -4847,9 +4857,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 "112
 [e :UE 596 ]
 }
-[v F5108 `(v ~T0 @X0 1 tf ]
+[v F5111 `(v ~T0 @X0 1 tf ]
 "125
-[v _InterruptHandlerLow `ILF5108 ~T0 @X0 1 e ]
+[v _InterruptHandlerLow `ILF5111 ~T0 @X0 1 e ]
 {
 [; ;interrupts.c: 119: interrupt low_priority
 [; ;interrupts.c: 125: void InterruptHandlerLow() {
@@ -4869,21 +4879,18 @@ Version 3.2 HI-TECH Software Intermediate Code
 }
 [e :U 600 ]
 [; ;interrupts.c: 131: }
-[; ;interrupts.c: 134: if (PIR1bits.RCIF) {
+[; ;interrupts.c: 134: if (PIR1bits.TX1IF && PIE1bits.TX1IE) {
 "134
-[e $ ! != -> . . _PIR1bits 0 5 `i -> -> -> 0 `i `Vuc `i 601  ]
+[e $ ! && != -> . . _PIR1bits 1 2 `i -> -> -> 0 `i `Vuc `i != -> . . _PIE1bits 1 2 `i -> -> -> 0 `i `Vuc `i 601  ]
 {
-[; ;interrupts.c: 135: PIR1bits.RCIF = 0;
+[; ;interrupts.c: 135: uart_send_int_handler();
 "135
-[e = . . _PIR1bits 0 5 -> -> 0 `i `uc ]
-[; ;interrupts.c: 136: uart_recv_int_handler();
+[e ( _uart_send_int_handler ..  ]
 "136
-[e ( _uart_recv_int_handler ..  ]
-"137
 }
 [e :U 601 ]
+[; ;interrupts.c: 136: }
 [; ;interrupts.c: 137: }
-[; ;interrupts.c: 138: }
-"138
+"137
 [e :UE 599 ]
 }

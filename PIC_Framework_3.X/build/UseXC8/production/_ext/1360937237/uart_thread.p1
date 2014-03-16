@@ -2,6 +2,16 @@ Version 3.2 HI-TECH Software Intermediate Code
 "1 ../src/uart_thread.h
 [s S582 `i 1 ]
 [n S582 __uart_thread_struct data ]
+"19 ../src/my_uart.h
+[v _uart_retrieve_buffer `(v ~T0 @X0 0 ef2`i`*uc ]
+[s S220 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S220 . TMR1IE TMR2IE CCP1IE SSP1IE TXIE RCIE ADIE PSPIE ]
+[s S221 :3 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S221 . . SSPIE TX1IE RC1IE ]
+[u S219 `S220 1 `S221 1 ]
+[n S219 . . . ]
+"3591 C:\Program Files\Microchip\xc8\v1.30\include\pic18f45j10.h
+[v _PIE1bits `VS219 ~T0 @X0 0 e@3997 ]
 [; ;htc.h: 22: extern void __builtin_software_breakpoint(void);
 [; ;pic18f45j10.h: 44: extern volatile unsigned char PORTA @ 0xF80;
 "46 C:\Program Files\Microchip\xc8\v1.30\include\pic18f45j10.h
@@ -4607,35 +4617,69 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;uart_thread.h: 3: int data;
 [; ;uart_thread.h: 4: } uart_thread_struct;
 [; ;uart_thread.h: 6: int uart_lthread(uart_thread_struct *,int,int,unsigned char*);
-"9 ../src/uart_thread.c
+[; ;messages.h: 10: typedef struct __msg {
+[; ;messages.h: 11: unsigned char full;
+[; ;messages.h: 12: unsigned char length;
+[; ;messages.h: 13: unsigned char msgtype;
+[; ;messages.h: 14: unsigned char data[10];
+[; ;messages.h: 15: } msg;
+[; ;messages.h: 17: typedef struct __msg_queue {
+[; ;messages.h: 18: msg queue[4];
+[; ;messages.h: 19: unsigned char cur_write_ind;
+[; ;messages.h: 20: unsigned char cur_read_ind;
+[; ;messages.h: 21: } msg_queue;
+[; ;messages.h: 43: void init_queues(void);
+[; ;messages.h: 47: void SleepIfOkay(void);
+[; ;messages.h: 51: void block_on_To_msgqueues(void);
+[; ;messages.h: 57: signed char ToMainLow_sendmsg(unsigned char,unsigned char,void *);
+[; ;messages.h: 58: signed char ToMainLow_recvmsg(unsigned char,unsigned char *,void *);
+[; ;messages.h: 64: signed char ToMainHigh_sendmsg(unsigned char,unsigned char,void *);
+[; ;messages.h: 65: signed char ToMainHigh_recvmsg(unsigned char,unsigned char *,void *);
+[; ;messages.h: 71: signed char FromMainLow_sendmsg(unsigned char,unsigned char,void *);
+[; ;messages.h: 72: signed char FromMainLow_recvmsg(unsigned char,unsigned char *,void *);
+[; ;messages.h: 78: signed char FromMainHigh_sendmsg(unsigned char,unsigned char,void *);
+[; ;messages.h: 79: signed char FromMainHigh_recvmsg(unsigned char,unsigned char *,void *);
+[; ;my_uart.h: 11: typedef struct __uart_comm {
+[; ;my_uart.h: 12: unsigned char Tx_buffer[4];
+[; ;my_uart.h: 13: unsigned char Tx_buflen;
+[; ;my_uart.h: 14: unsigned char msg_length;
+[; ;my_uart.h: 15: } uart_comm;
+[; ;my_uart.h: 17: void init_uart_recv(uart_comm *);
+[; ;my_uart.h: 18: void uart_send_int_handler();
+[; ;my_uart.h: 19: void uart_retrieve_buffer(int length, unsigned char*);
+"10 ../src/uart_thread.c
 [v _uart_lthread `(i ~T0 @X0 1 ef4`*S582`i`i`*uc ]
 {
-[; ;uart_thread.c: 9: int uart_lthread(uart_thread_struct *uptr, int msgtype, int length, unsigned char *msgbuffer) {
+[; ;uart_thread.c: 10: int uart_lthread(uart_thread_struct *uptr, int msgtype, int length, unsigned char *msgbuffer) {
 [e :U _uart_lthread ]
 [v _uptr `*S582 ~T0 @X0 1 r1 ]
 [v _msgtype `i ~T0 @X0 1 r2 ]
 [v _length `i ~T0 @X0 1 r3 ]
 [v _msgbuffer `*uc ~T0 @X0 1 r4 ]
 [f ]
-[; ;uart_thread.c: 10: if (msgtype == 30) {
-"10
-[e $ ! == _msgtype -> 30 `i 584  ]
-{
+[; ;uart_thread.c: 11: if (msgtype == 30) {
 "11
-}
-[; ;uart_thread.c: 11: }
-[e $U 585  ]
-"12
-[e :U 584 ]
-[; ;uart_thread.c: 12: else if (msgtype == 31) {
-[e $ ! == _msgtype -> 31 `i 586  ]
+[e $ ! == _msgtype -> 30 `i 587  ]
 {
-"14
+"13
 }
-[e :U 586 ]
+[; ;uart_thread.c: 13: } else if (msgtype == 40) {
+[e $U 588  ]
+[e :U 587 ]
+[e $ ! == _msgtype -> 40 `i 589  ]
+{
+[; ;uart_thread.c: 15: uart_retrieve_buffer(length, msgbuffer);
 "15
-[e :U 585 ]
-[; ;uart_thread.c: 14: }
-[; ;uart_thread.c: 15: }
-[e :UE 583 ]
+[e ( _uart_retrieve_buffer (2 , _length _msgbuffer ]
+[; ;uart_thread.c: 17: PIE1bits.TX1IE = 0x1;
+"17
+[e = . . _PIE1bits 1 2 -> -> 1 `i `uc ]
+"18
+}
+[e :U 589 ]
+"19
+[e :U 588 ]
+[; ;uart_thread.c: 18: }
+[; ;uart_thread.c: 19: }
+[e :UE 586 ]
 }

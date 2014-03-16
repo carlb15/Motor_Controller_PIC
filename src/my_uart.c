@@ -5,48 +5,45 @@
 #include <plib/usart.h>
 #endif
 #include "my_uart.h"
+#include "my_i2c.h"
 
 static uart_comm *uc_ptr;
 
-void uart_recv_int_handler() {
-#ifdef __USE18F26J50
-    if (DataRdy1USART()) {
-        uc_ptr->buffer[uc_ptr->buflen] = Read1USART();
-#else
-#ifdef __USE18F46J50
-    if (DataRdy1USART()) {
-        uc_ptr->buffer[uc_ptr->buflen] = Read1USART();
-#else
-    if (DataRdyUSART()) {
-        uc_ptr->buffer[uc_ptr->buflen] = ReadUSART();
-#endif
-#endif
+void init_uart_recv(uart_comm *uc) {
+    uc_ptr = uc;
+    uc_ptr->Tx_buflen = 0;
+}
 
-        uc_ptr->buflen++;
-        // check if a message should be sent
-        if (uc_ptr->buflen == MAXUARTBUF) {
-            //ToMainLow_sendmsg(uc_ptr->buflen, MSGT_UART_DATA, (void *) uc_ptr->buffer);
-            uc_ptr->buflen = 0;
-        }
-    }
-#ifdef __USE18F26J50
-    if (USART1_Status.OVERRUN_ERROR == 1) {
-#else
-#ifdef __USE18F46J50
-    if (USART1_Status.OVERRUN_ERROR == 1) {
-#else
-    if (USART_Status.OVERRUN_ERROR == 1) {
-#endif
-#endif
-        // we've overrun the USART and must reset
-        // send an error message for this
-        RCSTAbits.CREN = 0;
-        RCSTAbits.CREN = 1;
-        ToMainLow_sendmsg(0, MSGT_OVERRUN, (void *) 0);
+void uart_send_int_handler() {
+
+    if (uc_ptr->Tx_buflen == uc_ptr->msg_length) {
+        PIE1bits.TX1IE = 0; // Clear TXIE to end write.
+        uc_ptr->Tx_buflen = 0;
+    } else {
+        WriteUSART(uc_ptr->Tx_buffer[uc_ptr->Tx_buflen++]);
     }
 }
 
-void init_uart_recv(uart_comm *uc) {
-    uc_ptr = uc;
-    uc_ptr->buflen = 0;
+void uart_retrieve_buffer(int length, unsigned char* msgbuffer) {
+
+    //TODO Test
+    uc_ptr->msg_length = 3;
+    uc_ptr->Tx_buflen = 0;
+
+    for (int i = 0; i < 3; i++) {
+        uc_ptr->Tx_buffer[i] = msgbuffer[i];
+    }
+
+
+
+
+    // TODO Actual Implementation
+    //    // Get the length of motor command.
+    //    uc_ptr->msg_length = msgbuffer[1];
+    //    uc_ptr->Tx_buflen = 0;
+    //
+    //    int i = 2;
+    //    for (; i < length + 1; i++) {
+    //        uc_ptr->Tx_buffer[i] = msgbuffer[i];
+    //    }
 }

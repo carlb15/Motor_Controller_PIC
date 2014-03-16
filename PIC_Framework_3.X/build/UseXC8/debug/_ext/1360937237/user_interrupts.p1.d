@@ -6,5 +6,4 @@
 ../src/my_uart.h  \
 ../src/my_i2c.h  \
 ../src/maindefs.h  \
-../src/messages.h  \
-../src/adc_int_handler.h 
+../src/messages.h 

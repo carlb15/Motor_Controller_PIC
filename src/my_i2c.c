@@ -221,7 +221,12 @@ void i2c_int_handler() {
         ic_ptr->error_code = I2C_ERR_MSGTOOLONG;
     }
 
-    if (msg_ready) {
+    if (msg_ready){ //&& msgbuffer[0] == 0xaa) {
+        // TODO Change to send to collect encoder data
+        ic_ptr->buffer[ic_ptr->buflen] = ic_ptr->event_count;
+        ToMainHigh_sendmsg(ic_ptr->buflen + 1, MSGT_I2C_DATA, (void *) ic_ptr->buffer);
+        ic_ptr->buflen = 0;
+    } else if (msg_ready && msgbuffer[0] == 0x01) {
         ic_ptr->buffer[ic_ptr->buflen] = ic_ptr->event_count;
         ToMainHigh_sendmsg(ic_ptr->buflen + 1, MSGT_I2C_DATA, (void *) ic_ptr->buffer);
         ic_ptr->buflen = 0;
@@ -308,6 +313,9 @@ void i2c_configure_slave(unsigned char addr) {
 }
 
 void readMessages() {
+
+
+    // TODO Return buffered encoder data or 0xFF meaning the data is invalid.
 
     unsigned char buf[5];
     buf[0] = 0x1;

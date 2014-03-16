@@ -5945,47 +5945,70 @@ signed char FromMainLow_recvmsg(unsigned char,unsigned char *,void *);
 signed char FromMainHigh_sendmsg(unsigned char,unsigned char,void *);
 signed char FromMainHigh_recvmsg(unsigned char,unsigned char *,void *);
 
-# 10 "../src/my_uart.h"
+# 11 "../src/my_uart.h"
 typedef struct __uart_comm {
-unsigned char buffer[4];
-unsigned char buflen;
+unsigned char Tx_buffer[4];
+unsigned char Tx_buflen;
+unsigned char msg_length;
 } uart_comm;
 
 void init_uart_recv(uart_comm *);
-void uart_recv_int_handler(void);
+void uart_send_int_handler();
+void uart_retrieve_buffer(int length, unsigned char*);
 
-# 9 "../src/my_uart.c"
+# 7 "../src/my_i2c.h"
+typedef struct __i2c_comm {
+unsigned char buffer[10];
+unsigned char buflen;
+unsigned char event_count;
+unsigned char status;
+unsigned char error_code;
+unsigned char error_count;
+unsigned char outbuffer[10];
+unsigned char outbuflen;
+unsigned char outbufind;
+unsigned char slave_addr;
+} i2c_comm;
+
+int bufferFlag;
+unsigned char buff[10];
+
+# 37
+void init_i2c(i2c_comm *);
+void i2c_int_handler(void);
+void start_i2c_slave_reply(unsigned char,unsigned char *);
+void i2c_configure_slave(unsigned char);
+void i2c_configure_master(unsigned char);
+unsigned char i2c_master_send(unsigned char,unsigned char *);
+unsigned char i2c_master_recv(unsigned char);
+void readMessages();
+
+# 10 "../src/my_uart.c"
 static uart_comm *uc_ptr;
-
-void uart_recv_int_handler() {
-
-# 20
-if ((PIR1bits.RCIF)) {
-uc_ptr->buffer[uc_ptr->buflen] = ReadUSART();
-
-
-
-uc_ptr->buflen++;
-
-if (uc_ptr->buflen == 4) {
-
-uc_ptr->buflen = 0;
-}
-}
-
-# 38
-if (USART_Status.OVERRUN_ERROR == 1) {
-
-
-
-
-RCSTAbits.CREN = 0;
-RCSTAbits.CREN = 1;
-ToMainLow_sendmsg(0, 30, (void *) 0);
-}
-}
 
 void init_uart_recv(uart_comm *uc) {
 uc_ptr = uc;
-uc_ptr->buflen = 0;
+uc_ptr->Tx_buflen = 0;
+}
+
+void uart_send_int_handler() {
+
+if (uc_ptr->Tx_buflen == uc_ptr->msg_length) {
+PIE1bits.TX1IE = 0;
+uc_ptr->Tx_buflen = 0;
+} else {
+WriteUSART(uc_ptr->Tx_buffer[uc_ptr->Tx_buflen++]);
+}
+}
+
+void uart_retrieve_buffer(int length, unsigned char* msgbuffer) {
+
+
+uc_ptr->msg_length = msgbuffer[1];
+uc_ptr->Tx_buflen = 0;
+
+int i = 2;
+for (; i < length + 1; i++) {
+uc_ptr->Tx_buffer[uc_ptr->Tx_buflen++] = msgbuffer[i];
+}
 }

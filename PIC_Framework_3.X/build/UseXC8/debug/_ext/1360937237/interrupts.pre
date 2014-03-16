@@ -5962,14 +5962,16 @@ signed char FromMainLow_recvmsg(unsigned char,unsigned char *,void *);
 signed char FromMainHigh_sendmsg(unsigned char,unsigned char,void *);
 signed char FromMainHigh_recvmsg(unsigned char,unsigned char *,void *);
 
-# 10 "../src/my_uart.h"
+# 11 "../src/my_uart.h"
 typedef struct __uart_comm {
-unsigned char buffer[4];
-unsigned char buflen;
+unsigned char Tx_buffer[4];
+unsigned char Tx_buflen;
+unsigned char msg_length;
 } uart_comm;
 
 void init_uart_recv(uart_comm *);
-void uart_recv_int_handler(void);
+void uart_send_int_handler();
+void uart_retrieve_buffer(int length, unsigned char*);
 
 # 7 "../src/my_i2c.h"
 typedef struct __i2c_comm {
@@ -5997,18 +5999,6 @@ void i2c_configure_master(unsigned char);
 unsigned char i2c_master_send(unsigned char,unsigned char *);
 unsigned char i2c_master_recv(unsigned char);
 void readMessages();
-
-# 16 "../src/adc_int_handler.h"
-float voltage;
-unsigned int ADCResult;
-int bufferLen = 0;
-unsigned int previousValue =0;
-
-unsigned char ADCBuffer0[10];
-unsigned char ADCBuffer1[10];
-
-void adc_int_hand(void);
-void start_adc(void);
 
 # 15 "../src/interrupts.c"
 void enable_interrupts() {
@@ -6053,7 +6043,9 @@ interrupt
 # 87
 void InterruptHandlerHigh() {
 
-# 100
+
+
+
 if (PIR1bits.SSPIF) {
 
 PIR1bits.SSPIF = 0;
@@ -6068,14 +6060,14 @@ INTCONbits.TMR0IF = 0;
 timer0_int_handler();
 }
 
-# 126
+# 111
 SleepIfOkay();
 }
 
-# 134
+# 119
 interrupt low_priority
 
-# 140
+# 125
 void InterruptHandlerLow() {
 
 
@@ -6085,9 +6077,8 @@ timer1_int_handler();
 }
 
 
-if (PIR1bits.RCIF) {
-PIR1bits.RCIF = 0;
-uart_recv_int_handler();
+if (PIR1bits.TX1IF && PIE1bits.TX1IE) {
+uart_send_int_handler();
 }
 }
 
