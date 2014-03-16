@@ -26,24 +26,12 @@ void uart_send_int_handler() {
 
 void uart_retrieve_buffer(int length, unsigned char* msgbuffer) {
 
-    //TODO Test
-    uc_ptr->msg_length = 3;
+    // Get the length of motor command.
+    uc_ptr->msg_length = msgbuffer[1];
     uc_ptr->Tx_buflen = 0;
 
-    for (int i = 0; i < 3; i++) {
-        uc_ptr->Tx_buffer[i] = msgbuffer[i];
+    int i = 0;
+    for (; i < uc_ptr->msg_length; i++) {
+        uc_ptr->Tx_buffer[i] = msgbuffer[i + 2];
     }
-
-
-
-
-    // TODO Actual Implementation
-    //    // Get the length of motor command.
-    //    uc_ptr->msg_length = msgbuffer[1];
-    //    uc_ptr->Tx_buflen = 0;
-    //
-    //    int i = 2;
-    //    for (; i < length + 1; i++) {
-    //        uc_ptr->Tx_buffer[i] = msgbuffer[i];
-    //    }
 }

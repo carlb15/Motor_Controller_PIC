@@ -4629,7 +4629,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;messages.h: 78: signed char FromMainHigh_sendmsg(unsigned char,unsigned char,void *);
 [; ;messages.h: 79: signed char FromMainHigh_recvmsg(unsigned char,unsigned char *,void *);
 [; ;my_uart.h: 11: typedef struct __uart_comm {
-[; ;my_uart.h: 12: unsigned char Tx_buffer[4];
+[; ;my_uart.h: 12: unsigned char Tx_buffer[10];
 [; ;my_uart.h: 13: unsigned char Tx_buflen;
 [; ;my_uart.h: 14: unsigned char msg_length;
 [; ;my_uart.h: 15: } uart_comm;

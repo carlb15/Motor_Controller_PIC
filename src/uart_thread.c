@@ -11,9 +11,16 @@ int uart_lthread(uart_thread_struct *uptr, int msgtype, int length, unsigned cha
     if (msgtype == MSGT_OVERRUN) {
         // TODO handle when buffer overruns.
     } else if (msgtype == MSGT_I2C_DATA) {
-        // Send UART command to motorcontroller
-        uart_retrieve_buffer(length, msgbuffer);
-        // Set UART TXF interrupt flag
-        PIE1bits.TX1IE = 0x1;
+
+        // TODO Collect Encoder data to send to Master PIC
+
+        // Send motor command to motorcontroller
+        if (msgbuffer[0] == MOTOR_COMMAND) {
+            // Send UART command to motorcontroller
+            uart_retrieve_buffer(length, msgbuffer);
+            // Set UART TXF interrupt flag
+            PIE1bits.TX1IE = 0x1;
+        }
+
     }
-}
+} 

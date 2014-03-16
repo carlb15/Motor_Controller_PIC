@@ -6018,7 +6018,7 @@ signed char FromMainHigh_recvmsg(unsigned char,unsigned char *,void *);
 
 # 11 "../src/my_uart.h"
 typedef struct __uart_comm {
-unsigned char Tx_buffer[4];
+unsigned char Tx_buffer[10];
 unsigned char Tx_buflen;
 unsigned char msg_length;
 } uart_comm;
@@ -6033,8 +6033,15 @@ if (msgtype == 30) {
 
 } else if (msgtype == 40) {
 
+
+
+
+if (msgbuffer[0] == 0x01) {
+
 uart_retrieve_buffer(length, msgbuffer);
 
 PIE1bits.TX1IE = 0x1;
+}
+
 }
 }

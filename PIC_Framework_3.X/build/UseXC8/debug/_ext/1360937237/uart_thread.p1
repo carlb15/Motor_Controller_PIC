@@ -4640,7 +4640,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;messages.h: 78: signed char FromMainHigh_sendmsg(unsigned char,unsigned char,void *);
 [; ;messages.h: 79: signed char FromMainHigh_recvmsg(unsigned char,unsigned char *,void *);
 [; ;my_uart.h: 11: typedef struct __uart_comm {
-[; ;my_uart.h: 12: unsigned char Tx_buffer[4];
+[; ;my_uart.h: 12: unsigned char Tx_buffer[10];
 [; ;my_uart.h: 13: unsigned char Tx_buflen;
 [; ;my_uart.h: 14: unsigned char msg_length;
 [; ;my_uart.h: 15: } uart_comm;
@@ -4668,18 +4668,26 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e :U 587 ]
 [e $ ! == _msgtype -> 40 `i 589  ]
 {
-[; ;uart_thread.c: 15: uart_retrieve_buffer(length, msgbuffer);
-"15
-[e ( _uart_retrieve_buffer (2 , _length _msgbuffer ]
-[; ;uart_thread.c: 17: PIE1bits.TX1IE = 0x1;
-"17
-[e = . . _PIE1bits 1 2 -> -> 1 `i `uc ]
+[; ;uart_thread.c: 18: if (msgbuffer[0] == 0x01) {
 "18
+[e $ ! == -> *U + _msgbuffer * -> -> 0 `i `x -> -> # *U _msgbuffer `i `x `i -> 1 `i 590  ]
+{
+[; ;uart_thread.c: 20: uart_retrieve_buffer(length, msgbuffer);
+"20
+[e ( _uart_retrieve_buffer (2 , _length _msgbuffer ]
+[; ;uart_thread.c: 22: PIE1bits.TX1IE = 0x1;
+"22
+[e = . . _PIE1bits 1 2 -> -> 1 `i `uc ]
+"23
+}
+[e :U 590 ]
+"25
 }
 [e :U 589 ]
-"19
+"26
 [e :U 588 ]
-[; ;uart_thread.c: 18: }
-[; ;uart_thread.c: 19: }
+[; ;uart_thread.c: 23: }
+[; ;uart_thread.c: 25: }
+[; ;uart_thread.c: 26: }
 [e :UE 586 ]
 }

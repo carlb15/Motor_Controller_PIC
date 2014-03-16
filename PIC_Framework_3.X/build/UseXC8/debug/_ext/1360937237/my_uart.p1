@@ -1,6 +1,6 @@
 Version 3.2 HI-TECH Software Intermediate Code
 "11 ../src/my_uart.h
-[s S583 `uc -> 4 `i `uc 1 `uc 1 ]
+[s S583 `uc -> 10 `i `uc 1 `uc 1 ]
 [n S583 __uart_comm Tx_buffer Tx_buflen msg_length ]
 [s S220 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S220 . TMR1IE TMR2IE CCP1IE SSP1IE TXIE RCIE ADIE PSPIE ]
@@ -4606,7 +4606,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;messages.h: 78: signed char FromMainHigh_sendmsg(unsigned char,unsigned char,void *);
 [; ;messages.h: 79: signed char FromMainHigh_recvmsg(unsigned char,unsigned char *,void *);
 [; ;my_uart.h: 11: typedef struct __uart_comm {
-[; ;my_uart.h: 12: unsigned char Tx_buffer[4];
+[; ;my_uart.h: 12: unsigned char Tx_buffer[10];
 [; ;my_uart.h: 13: unsigned char Tx_buflen;
 [; ;my_uart.h: 14: unsigned char msg_length;
 [; ;my_uart.h: 15: } uart_comm;
@@ -4700,34 +4700,36 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _length `i ~T0 @X0 1 r1 ]
 [v _msgbuffer `*uc ~T0 @X0 1 r2 ]
 [f ]
-[; ;my_uart.c: 32: uc_ptr->msg_length = 3;
-"32
-[e = . *U _uc_ptr 2 -> -> 3 `i `uc ]
-[; ;my_uart.c: 33: uc_ptr->Tx_buflen = 0;
-"33
+[; ;my_uart.c: 30: uc_ptr->msg_length = msgbuffer[1];
+"30
+[e = . *U _uc_ptr 2 *U + _msgbuffer * -> -> 1 `i `x -> -> # *U _msgbuffer `i `x ]
+[; ;my_uart.c: 31: uc_ptr->Tx_buflen = 0;
+"31
 [e = . *U _uc_ptr 1 -> -> 0 `i `uc ]
-[; ;my_uart.c: 35: for (int i = 0; i < 3; i++) {
-"35
-{
+"33
 [v _i `i ~T0 @X0 1 a ]
+[; ;my_uart.c: 33: int i = 0;
 [e = _i -> 0 `i ]
-[e $ < _i -> 3 `i 590  ]
-[e $U 591  ]
+[; ;my_uart.c: 34: for (; i < uc_ptr->msg_length; i++) {
+"34
+{
+[e $U 593  ]
 [e :U 590 ]
 {
-[; ;my_uart.c: 36: uc_ptr->Tx_buffer[i] = msgbuffer[i];
-"36
-[e = *U + &U . *U _uc_ptr 0 * -> -> _i `ui `ux -> -> # *U &U . *U _uc_ptr 0 `ui `ux *U + _msgbuffer * -> _i `x -> -> # *U _msgbuffer `i `x ]
-"37
-}
+[; ;my_uart.c: 35: uc_ptr->Tx_buffer[i] = msgbuffer[i + 2];
 "35
-[e ++ _i -> 1 `i ]
-[e $ < _i -> 3 `i 590  ]
-[e :U 591 ]
-"37
+[e = *U + &U . *U _uc_ptr 0 * -> -> _i `ui `ux -> -> # *U &U . *U _uc_ptr 0 `ui `ux *U + _msgbuffer * -> + _i -> 2 `i `x -> -> # *U _msgbuffer `i `x ]
+"36
 }
+"34
+[e ++ _i -> 1 `i ]
+[e :U 593 ]
+[e $ < _i -> . *U _uc_ptr 2 `i 590  ]
+[e :U 591 ]
+"36
+}
+[; ;my_uart.c: 36: }
 [; ;my_uart.c: 37: }
-[; ;my_uart.c: 51: }
-"51
+"37
 [e :UE 589 ]
 }

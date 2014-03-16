@@ -329,19 +329,6 @@ void main(void) {
     // enable high-priority interrupts and low-priority interrupts
     enable_interrupts();
 
-    /* Junk to force an I2C interrupt in the simulator (if you wanted to)
-    PIR1bits.SSPIF = 1;
-    _asm
-    goto 0x08
-    _endasm;
-     */
-
-    // printf() is available, but is not advisable.  It goes to the UART pin
-    // on the PIC and then you must hook something up to that to view it.
-    // It is also slow and is blocking, so it will perturb your code's operation
-    // Here is how it looks: printf("Hello\r\n");
-
-
     // loop forever
     // This loop is responsible for "handing off" messages to the subroutines
     // that should get them.  Although the subroutines are not threads, but

@@ -5952,7 +5952,7 @@ signed char FromMainHigh_recvmsg(unsigned char,unsigned char *,void *);
 
 # 11 "../src/my_uart.h"
 typedef struct __uart_comm {
-unsigned char Tx_buffer[4];
+unsigned char Tx_buffer[10];
 unsigned char Tx_buflen;
 unsigned char msg_length;
 } uart_comm;

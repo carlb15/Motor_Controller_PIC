@@ -226,10 +226,6 @@ void i2c_int_handler() {
         ic_ptr->buffer[ic_ptr->buflen] = ic_ptr->event_count;
         ToMainHigh_sendmsg(ic_ptr->buflen + 1, MSGT_I2C_DATA, (void *) ic_ptr->buffer);
         ic_ptr->buflen = 0;
-    } else if (msg_ready && msgbuffer[0] == 0x01) {
-        ic_ptr->buffer[ic_ptr->buflen] = ic_ptr->event_count;
-        ToMainHigh_sendmsg(ic_ptr->buflen + 1, MSGT_I2C_DATA, (void *) ic_ptr->buffer);
-        ic_ptr->buflen = 0;
     } else if (ic_ptr->error_count >= I2C_ERR_THRESHOLD) {
         error_buf[0] = ic_ptr->error_count;
         error_buf[1] = ic_ptr->error_code;

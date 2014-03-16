@@ -69,11 +69,11 @@
 [v _handle_start handle_start `(v  1 e 0 0 ]
 "77
 [v _i2c_int_handler i2c_int_handler `(v  1 e 0 0 ]
-"250
+"246
 [v _init_i2c init_i2c `(v  1 e 0 0 ]
-"261
+"257
 [v _i2c_configure_slave i2c_configure_slave `(v  1 e 0 0 ]
-"315
+"311
 [v _readMessages readMessages `(v  1 e 0 0 ]
 "12 C:\Users\ECE4534\Documents\GitHub\Motor_Controller_PIC/src/my_uart.c
 [v _init_uart_recv init_uart_recv `(v  1 e 0 0 ]
@@ -266,7 +266,7 @@
 [v _bufferFlag bufferFlag `i  1 e 2 0 ]
 "21
 [v _buff buff `[10]uc  1 e 10 0 ]
-[s S307 __uart_comm 6 `[4]uc 1 Tx_buffer 4 0 `uc 1 Tx_buflen 1 4 `uc 1 msg_length 1 5 ]
+[s S307 __uart_comm 12 `[10]uc 1 Tx_buffer 10 0 `uc 1 Tx_buflen 1 10 `uc 1 msg_length 1 11 ]
 "10 C:\Users\ECE4534\Documents\GitHub\Motor_Controller_PIC/src/my_uart.c
 [v _uc_ptr uc_ptr `*.39S307  1 s 2 uc_ptr ]
 "2065 C:\Program Files\Microchip\xc8\v1.30\include\pic18f45j10.h
@@ -819,15 +819,15 @@
 {
 [s S311 __i2c_comm 28 `[10]uc 1 buffer 10 0 `uc 1 buflen 1 10 `uc 1 event_count 1 11 `uc 1 status 1 12 `uc 1 error_code 1 13 `uc 1 error_count 1 14 `[10]uc 1 outbuffer 10 15 `uc 1 outbuflen 1 25 `uc 1 outbufind 1 26 `uc 1 slave_addr 1 27 ]
 "194
-[v main@ic ic `S311  1 a 28 28 ]
+[v main@ic ic `S311  1 a 28 34 ]
+[s S307 __uart_comm 12 `[10]uc 1 Tx_buffer 10 0 `uc 1 Tx_buflen 1 10 `uc 1 msg_length 1 11 ]
+"193
+[v main@uc uc `S307  1 a 12 20 ]
 "195
 [v main@msgbuffer msgbuffer `[11]uc  1 a 11 0 ]
-[s S307 __uart_comm 6 `[4]uc 1 Tx_buffer 4 0 `uc 1 Tx_buflen 1 4 `uc 1 msg_length 1 5 ]
-"193
-[v main@uc uc `S307  1 a 6 18 ]
 [s S324 __timer1_thread_struct 2 `ui 1 msgcount 2 0 ]
 "198
-[v main@t1thread_data t1thread_data `S324  1 a 2 24 ]
+[v main@t1thread_data t1thread_data `S324  1 a 2 18 ]
 [s S326 __timer0_thread_struct 2 `i 1 data 2 0 ]
 "199
 [v main@t0thread_data t0thread_data `S326  1 a 2 16 ]
@@ -835,56 +835,56 @@
 "197
 [v main@uthread_data uthread_data `S322  1 a 2 14 ]
 "191
-[v main@msgtype msgtype `uc  1 a 1 27 ]
+[v main@msgtype msgtype `uc  1 a 1 33 ]
 "190
-[v main@length length `c  1 a 1 26 ]
+[v main@length length `c  1 a 1 32 ]
 "201
 [v main@portconfig portconfig `uc  1 a 1 13 ]
 [v main@config2 config2 `uc  1 a 1 12 ]
 [v main@config1 config1 `uc  1 a 1 11 ]
-"411
+"398
 } 0
 "10 C:\Users\ECE4534\Documents\GitHub\Motor_Controller_PIC/src/uart_thread.c
 [v _uart_lthread uart_lthread `(i  1 e 2 0 ]
 {
 [s S322 __uart_thread_struct 2 `i 1 data 2 0 ]
-[v uart_lthread@uptr uptr `*.39S322  1 p 2 40 ]
-[v uart_lthread@msgtype msgtype `i  1 p 2 42 ]
-[v uart_lthread@length length `i  1 p 2 44 ]
-[v uart_lthread@msgbuffer msgbuffer `*.39uc  1 p 2 46 ]
-"19
+[v uart_lthread@uptr uptr `*.39S322  1 p 2 9 ]
+[v uart_lthread@msgtype msgtype `i  1 p 2 11 ]
+[v uart_lthread@length length `i  1 p 2 13 ]
+[v uart_lthread@msgbuffer msgbuffer `*.39uc  1 p 2 15 ]
+"26
 } 0
 "27 C:\Users\ECE4534\Documents\GitHub\Motor_Controller_PIC/src/my_uart.c
 [v _uart_retrieve_buffer uart_retrieve_buffer `(v  1 e 0 0 ]
 {
-"35
-[v uart_retrieve_buffer@i i `i  1 a 2 38 ]
+"33
+[v uart_retrieve_buffer@i i `i  1 a 2 7 ]
 "27
-[v uart_retrieve_buffer@length length `i  1 p 2 34 ]
-[v uart_retrieve_buffer@msgbuffer msgbuffer `*.39uc  1 p 2 36 ]
-"51
+[v uart_retrieve_buffer@length length `i  1 p 2 0 ]
+[v uart_retrieve_buffer@msgbuffer msgbuffer `*.39uc  1 p 2 2 ]
+"37
 } 0
 "14 C:\Users\ECE4534\Documents\GitHub\Motor_Controller_PIC/src/timer1_thread.c
 [v _timer1_lthread timer1_lthread `(i  1 e 2 0 ]
 {
 "15
-[v timer1_lthread@retval retval `c  1 a 1 69 ]
+[v timer1_lthread@retval retval `c  1 a 1 35 ]
 [s S324 __timer1_thread_struct 2 `ui 1 msgcount 2 0 ]
 "14
-[v timer1_lthread@tptr tptr `*.39S324  1 p 2 60 ]
-[v timer1_lthread@msgtype msgtype `i  1 p 2 62 ]
-[v timer1_lthread@length length `i  1 p 2 64 ]
-[v timer1_lthread@msgbuffer msgbuffer `*.39uc  1 p 2 66 ]
+[v timer1_lthread@tptr tptr `*.39S324  1 p 2 26 ]
+[v timer1_lthread@msgtype msgtype `i  1 p 2 28 ]
+[v timer1_lthread@length length `i  1 p 2 30 ]
+[v timer1_lthread@msgbuffer msgbuffer `*.39uc  1 p 2 32 ]
 "26
 } 0
 "8 C:\Program Files\Microchip\xc8\v1.30\sources\common\lwmod.c
 [v ___lwmod __lwmod `(ui  1 e 2 0 ]
 {
 "11
-[v ___lwmod@counter counter `uc  1 a 1 39 ]
+[v ___lwmod@counter counter `uc  1 a 1 5 ]
 "8
-[v ___lwmod@dividend dividend `ui  1 p 2 34 ]
-[v ___lwmod@divisor divisor `ui  1 p 2 36 ]
+[v ___lwmod@dividend dividend `ui  1 p 2 0 ]
+[v ___lwmod@divisor divisor `ui  1 p 2 2 ]
 "26
 } 0
 "174 C:\Users\ECE4534\Documents\GitHub\Motor_Controller_PIC/src/messages.c
@@ -892,10 +892,10 @@
 {
 [v FromMainHigh_sendmsg@length length `uc  1 a 1 wreg ]
 [v FromMainHigh_sendmsg@length length `uc  1 a 1 wreg ]
-[v FromMainHigh_sendmsg@msgtype msgtype `uc  1 p 1 56 ]
-[v FromMainHigh_sendmsg@data data `*.39v  1 p 2 57 ]
+[v FromMainHigh_sendmsg@msgtype msgtype `uc  1 p 1 22 ]
+[v FromMainHigh_sendmsg@data data `*.39v  1 p 2 23 ]
 "180
-[v FromMainHigh_sendmsg@length length `uc  1 a 1 59 ]
+[v FromMainHigh_sendmsg@length length `uc  1 a 1 25 ]
 "181
 } 0
 "24
@@ -903,44 +903,44 @@
 {
 [s S660 __msg 13 `uc 1 full 1 0 `uc 1 length 1 1 `uc 1 msgtype 1 2 `[10]uc 1 data 10 3 ]
 "27
-[v send_msg@qmsg qmsg `*.39S660  1 a 2 54 ]
+[v send_msg@qmsg qmsg `*.39S660  1 a 2 20 ]
 "28
-[v send_msg@tlength tlength `ui  1 a 2 51 ]
+[v send_msg@tlength tlength `ui  1 a 2 17 ]
 "25
-[v send_msg@slot slot `uc  1 a 1 53 ]
+[v send_msg@slot slot `uc  1 a 1 19 ]
 "24
 [s S665 __msg_queue 54 `[4]S660 1 queue 52 0 `uc 1 cur_write_ind 1 52 `uc 1 cur_read_ind 1 53 ]
-[v send_msg@qptr qptr `*.39S665  1 p 2 44 ]
-[v send_msg@length length `uc  1 p 1 46 ]
-[v send_msg@msgtype msgtype `uc  1 p 1 47 ]
-[v send_msg@data data `*.39v  1 p 2 48 ]
+[v send_msg@qptr qptr `*.39S665  1 p 2 10 ]
+[v send_msg@length length `uc  1 p 1 12 ]
+[v send_msg@msgtype msgtype `uc  1 p 1 13 ]
+[v send_msg@data data `*.39v  1 p 2 14 ]
 "61
 } 0
 "9 C:\Users\ECE4534\Documents\GitHub\Motor_Controller_PIC/src/timer0_thread.c
 [v _timer0_lthread timer0_lthread `(i  1 e 2 0 ]
 {
 "10
-[v timer0_lthread@msgval msgval `*.39ui  1 a 2 42 ]
+[v timer0_lthread@msgval msgval `*.39ui  1 a 2 8 ]
 [s S326 __timer0_thread_struct 2 `i 1 data 2 0 ]
 "9
-[v timer0_lthread@tptr tptr `*.39S326  1 p 2 34 ]
-[v timer0_lthread@msgtype msgtype `i  1 p 2 36 ]
-[v timer0_lthread@length length `i  1 p 2 38 ]
-[v timer0_lthread@msgbuffer msgbuffer `*.39uc  1 p 2 40 ]
+[v timer0_lthread@tptr tptr `*.39S326  1 p 2 0 ]
+[v timer0_lthread@msgtype msgtype `i  1 p 2 2 ]
+[v timer0_lthread@length length `i  1 p 2 4 ]
+[v timer0_lthread@msgbuffer msgbuffer `*.39uc  1 p 2 6 ]
 "13
 } 0
 "12 C:\Users\ECE4534\Documents\GitHub\Motor_Controller_PIC/src/my_uart.c
 [v _init_uart_recv init_uart_recv `(v  1 e 0 0 ]
 {
-[s S307 __uart_comm 6 `[4]uc 1 Tx_buffer 4 0 `uc 1 Tx_buflen 1 4 `uc 1 msg_length 1 5 ]
-[v init_uart_recv@uc uc `*.39S307  1 p 2 34 ]
+[s S307 __uart_comm 12 `[10]uc 1 Tx_buffer 10 0 `uc 1 Tx_buflen 1 10 `uc 1 msg_length 1 11 ]
+[v init_uart_recv@uc uc `*.39S307  1 p 2 0 ]
 "15
 } 0
 "6 C:\Users\ECE4534\Documents\GitHub\Motor_Controller_PIC/src/timer1_thread.c
 [v _init_timer1_lthread init_timer1_lthread `(v  1 e 0 0 ]
 {
 [s S324 __timer1_thread_struct 2 `ui 1 msgcount 2 0 ]
-[v init_timer1_lthread@tptr tptr `*.39S324  1 p 2 34 ]
+[v init_timer1_lthread@tptr tptr `*.39S324  1 p 2 0 ]
 "8
 } 0
 "194 C:\Users\ECE4534\Documents\GitHub\Motor_Controller_PIC/src/messages.c
@@ -952,28 +952,28 @@
 [v _init_queue init_queue `(v  1 e 0 0 ]
 {
 "15
-[v init_queue@i i `uc  1 a 1 37 ]
+[v init_queue@i i `uc  1 a 1 3 ]
 [s S660 __msg 13 `uc 1 full 1 0 `uc 1 length 1 1 `uc 1 msgtype 1 2 `[10]uc 1 data 10 3 ]
 "14
 [s S665 __msg_queue 54 `[4]S660 1 queue 52 0 `uc 1 cur_write_ind 1 52 `uc 1 cur_read_ind 1 53 ]
-[v init_queue@qptr qptr `*.39S665  1 p 2 34 ]
+[v init_queue@qptr qptr `*.39S665  1 p 2 0 ]
 "22
 } 0
-"250 C:\Users\ECE4534\Documents\GitHub\Motor_Controller_PIC/src/my_i2c.c
+"246 C:\Users\ECE4534\Documents\GitHub\Motor_Controller_PIC/src/my_i2c.c
 [v _init_i2c init_i2c `(v  1 e 0 0 ]
 {
 [s S311 __i2c_comm 28 `[10]uc 1 buffer 10 0 `uc 1 buflen 1 10 `uc 1 event_count 1 11 `uc 1 status 1 12 `uc 1 error_code 1 13 `uc 1 error_count 1 14 `[10]uc 1 outbuffer 10 15 `uc 1 outbuflen 1 25 `uc 1 outbufind 1 26 `uc 1 slave_addr 1 27 ]
-[v init_i2c@ic ic `*.39S311  1 p 2 34 ]
-"256
+[v init_i2c@ic ic `*.39S311  1 p 2 0 ]
+"252
 } 0
-"261
+"257
 [v _i2c_configure_slave i2c_configure_slave `(v  1 e 0 0 ]
 {
 [v i2c_configure_slave@addr addr `uc  1 a 1 wreg ]
 [v i2c_configure_slave@addr addr `uc  1 a 1 wreg ]
-"273
-[v i2c_configure_slave@addr addr `uc  1 a 1 34 ]
-"313
+"269
+[v i2c_configure_slave@addr addr `uc  1 a 1 0 ]
+"309
 } 0
 "15 C:\Users\ECE4534\Documents\GitHub\Motor_Controller_PIC/src/interrupts.c
 [v _enable_interrupts enable_interrupts `(v  1 e 0 0 ]
@@ -1005,7 +1005,7 @@
 {
 [s S660 __msg 13 `uc 1 full 1 0 `uc 1 length 1 1 `uc 1 msgtype 1 2 `[10]uc 1 data 10 3 ]
 [s S665 __msg_queue 54 `[4]S660 1 queue 52 0 `uc 1 cur_write_ind 1 52 `uc 1 cur_read_ind 1 53 ]
-[v check_msg@qptr qptr `*.39S665  1 p 2 34 ]
+[v check_msg@qptr qptr `*.39S665  1 p 2 0 ]
 "224
 } 0
 "8 C:\Program Files\Microchip\xc8\v1.30\sources\pic18\d1ktcyx.c
@@ -1013,7 +1013,7 @@
 {
 [v Delay1KTCYx@unit unit `uc  1 a 1 wreg ]
 [v Delay1KTCYx@unit unit `uc  1 a 1 wreg ]
-[v Delay1KTCYx@unit unit `uc  1 a 1 34 ]
+[v Delay1KTCYx@unit unit `uc  1 a 1 0 ]
 "13
 } 0
 "112 C:\Users\ECE4534\Documents\GitHub\Motor_Controller_PIC/src/messages.c
@@ -1021,10 +1021,10 @@
 {
 [v ToMainLow_recvmsg@maxlength maxlength `uc  1 a 1 wreg ]
 [v ToMainLow_recvmsg@maxlength maxlength `uc  1 a 1 wreg ]
-[v ToMainLow_recvmsg@msgtype msgtype `*.39uc  1 p 2 58 ]
-[v ToMainLow_recvmsg@data data `*.39v  1 p 2 60 ]
+[v ToMainLow_recvmsg@msgtype msgtype `*.39uc  1 p 2 24 ]
+[v ToMainLow_recvmsg@data data `*.39v  1 p 2 26 ]
 "118
-[v ToMainLow_recvmsg@maxlength maxlength `uc  1 a 1 62 ]
+[v ToMainLow_recvmsg@maxlength maxlength `uc  1 a 1 28 ]
 "119
 } 0
 "135
@@ -1032,10 +1032,10 @@
 {
 [v ToMainHigh_recvmsg@maxlength maxlength `uc  1 a 1 wreg ]
 [v ToMainHigh_recvmsg@maxlength maxlength `uc  1 a 1 wreg ]
-[v ToMainHigh_recvmsg@msgtype msgtype `*.39uc  1 p 2 58 ]
-[v ToMainHigh_recvmsg@data data `*.39v  1 p 2 60 ]
+[v ToMainHigh_recvmsg@msgtype msgtype `*.39uc  1 p 2 24 ]
+[v ToMainHigh_recvmsg@data data `*.39v  1 p 2 26 ]
 "141
-[v ToMainHigh_recvmsg@maxlength maxlength `uc  1 a 1 62 ]
+[v ToMainHigh_recvmsg@maxlength maxlength `uc  1 a 1 28 ]
 "142
 } 0
 "63
@@ -1043,30 +1043,30 @@
 {
 [s S660 __msg 13 `uc 1 full 1 0 `uc 1 length 1 1 `uc 1 msgtype 1 2 `[10]uc 1 data 10 3 ]
 "68
-[v recv_msg@qmsg qmsg `*.39S660  1 a 2 56 ]
+[v recv_msg@qmsg qmsg `*.39S660  1 a 2 22 ]
 "69
-[v recv_msg@tlength tlength `ui  1 a 2 54 ]
+[v recv_msg@tlength tlength `ui  1 a 2 20 ]
 "64
-[v recv_msg@slot slot `uc  1 a 1 53 ]
+[v recv_msg@slot slot `uc  1 a 1 19 ]
 "63
 [s S665 __msg_queue 54 `[4]S660 1 queue 52 0 `uc 1 cur_write_ind 1 52 `uc 1 cur_read_ind 1 53 ]
-[v recv_msg@qptr qptr `*.39S665  1 p 2 44 ]
-[v recv_msg@maxlength maxlength `uc  1 p 1 46 ]
-[v recv_msg@msgtype msgtype `*.39uc  1 p 2 47 ]
-[v recv_msg@data data `*.39v  1 p 2 49 ]
+[v recv_msg@qptr qptr `*.39S665  1 p 2 10 ]
+[v recv_msg@maxlength maxlength `uc  1 p 1 12 ]
+[v recv_msg@msgtype msgtype `*.39uc  1 p 2 13 ]
+[v recv_msg@data data `*.39v  1 p 2 15 ]
 "96
 } 0
 "11 C:\Program Files\Microchip\xc8\v1.30\sources\common\memcpy.c
 [v _memcpy memcpy `(*.39v  1 e 2 0 ]
 {
 "20
-[v memcpy@s s `*.39Cuc  1 a 2 42 ]
+[v memcpy@s s `*.39Cuc  1 a 2 8 ]
 "18
-[v memcpy@d d `*.39uc  1 a 2 40 ]
+[v memcpy@d d `*.39uc  1 a 2 6 ]
 "11
-[v memcpy@d1 d1 `*.39v  1 p 2 34 ]
-[v memcpy@s1 s1 `*.39Cv  1 p 2 36 ]
-[v memcpy@n n `ui  1 p 2 38 ]
+[v memcpy@d1 d1 `*.39v  1 p 2 0 ]
+[v memcpy@s1 s1 `*.39Cv  1 p 2 2 ]
+[v memcpy@n n `ui  1 p 2 4 ]
 "32
 } 0
 "73 C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\USART\uopen.c
@@ -1074,9 +1074,9 @@
 {
 [v OpenUSART@config config `uc  1 a 1 wreg ]
 [v OpenUSART@config config `uc  1 a 1 wreg ]
-[v OpenUSART@spbrg spbrg `ui  1 p 2 34 ]
+[v OpenUSART@spbrg spbrg `ui  1 p 2 0 ]
 "75
-[v OpenUSART@config config `uc  1 a 1 39 ]
+[v OpenUSART@config config `uc  1 a 1 5 ]
 "143
 } 0
 "16 C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t1open.c
@@ -1085,7 +1085,7 @@
 [v OpenTimer1@config config `uc  1 a 1 wreg ]
 [v OpenTimer1@config config `uc  1 a 1 wreg ]
 "18
-[v OpenTimer1@config config `uc  1 a 1 34 ]
+[v OpenTimer1@config config `uc  1 a 1 0 ]
 "36
 } 0
 "18 C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t0open.c
@@ -1094,7 +1094,7 @@
 [v OpenTimer0@config config `uc  1 a 1 wreg ]
 [v OpenTimer0@config config `uc  1 a 1 wreg ]
 "20
-[v OpenTimer0@config config `uc  1 a 1 34 ]
+[v OpenTimer0@config config `uc  1 a 1 0 ]
 "31
 } 0
 "125 C:\Users\ECE4534\Documents\GitHub\Motor_Controller_PIC/src/interrupts.c
@@ -1185,10 +1185,10 @@
 [v _timer0_int_handler timer0_int_handler `(v  1 e 0 0 ]
 {
 "18
-[v timer0_int_handler@val val `ui  1 a 2 17 ]
+[v timer0_int_handler@val val `ui  1 a 2 34 ]
 "19
-[v timer0_int_handler@msgtype msgtype `i  1 a 2 15 ]
-[v timer0_int_handler@length length `i  1 a 2 13 ]
+[v timer0_int_handler@msgtype msgtype `i  1 a 2 32 ]
+[v timer0_int_handler@length length `i  1 a 2 30 ]
 "40
 } 0
 "16 C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t0write.c
@@ -1196,9 +1196,9 @@
 {
 [u S1676 Timers 2 `ui 1 lt 2 0 `[2]uc 1 bt 2 0 ]
 "18
-[v WriteTimer0@timer timer `S1676  1 a 2 48 ]
+[v WriteTimer0@timer timer `S1676  1 a 2 2 ]
 "16
-[v WriteTimer0@timer0 timer0 `ui  1 p 2 46 ]
+[v WriteTimer0@timer0 timer0 `ui  1 p 2 0 ]
 "24
 } 0
 "183 C:\Users\ECE4534\Documents\GitHub\Motor_Controller_PIC/src/messages.c
@@ -1206,60 +1206,60 @@
 {
 [v FromMainHigh_recvmsg@maxlength maxlength `uc  1 a 1 wreg ]
 [v FromMainHigh_recvmsg@maxlength maxlength `uc  1 a 1 wreg ]
-[v FromMainHigh_recvmsg@msgtype msgtype `*.39uc  1 p 2 7 ]
-[v FromMainHigh_recvmsg@data data `*.39v  1 p 2 9 ]
+[v FromMainHigh_recvmsg@msgtype msgtype `*.39uc  1 p 2 24 ]
+[v FromMainHigh_recvmsg@data data `*.39v  1 p 2 26 ]
 "189
-[v FromMainHigh_recvmsg@maxlength maxlength `uc  1 a 1 11 ]
+[v FromMainHigh_recvmsg@maxlength maxlength `uc  1 a 1 28 ]
 "190
 } 0
 "63
 [v i2_recv_msg recv_msg `(c  1 e 1 0 ]
 {
 [s S660 __msg 13 `uc 1 full 1 0 `uc 1 length 1 1 `uc 1 msgtype 1 2 `[10]uc 1 data 10 3 ]
-[v i2recv_msg@qmsg recv_msg `*.39S660  1 a 2 5 ]
-[v i2recv_msg@tlength recv_msg `ui  1 a 2 3 ]
-[v i2recv_msg@slot recv_msg `uc  1 a 1 2 ]
+[v i2recv_msg@qmsg recv_msg `*.39S660  1 a 2 22 ]
+[v i2recv_msg@tlength recv_msg `ui  1 a 2 20 ]
+[v i2recv_msg@slot recv_msg `uc  1 a 1 19 ]
 [s S665 __msg_queue 54 `[4]S660 1 queue 52 0 `uc 1 cur_write_ind 1 52 `uc 1 cur_read_ind 1 53 ]
-[v i2recv_msg@qptr qptr `*.39S665  1 p 2 56 ]
-[v i2recv_msg@maxlength maxlength `uc  1 p 1 58 ]
-[v i2recv_msg@msgtype msgtype `*.39uc  1 p 2 59 ]
-[v i2recv_msg@data data `*.39v  1 p 2 61 ]
+[v i2recv_msg@qptr qptr `*.39S665  1 p 2 10 ]
+[v i2recv_msg@maxlength maxlength `uc  1 p 1 12 ]
+[v i2recv_msg@msgtype msgtype `*.39uc  1 p 2 13 ]
+[v i2recv_msg@data data `*.39v  1 p 2 15 ]
 "96
 } 0
 "77 C:\Users\ECE4534\Documents\GitHub\Motor_Controller_PIC/src/my_i2c.c
 [v _i2c_int_handler i2c_int_handler `(v  1 e 0 0 ]
 {
 "84
-[v i2c_int_handler@error_buf error_buf `[3]uc  1 a 3 11 ]
+[v i2c_int_handler@error_buf error_buf `[3]uc  1 a 3 28 ]
 "79
-[v i2c_int_handler@data_read data_read `uc  1 a 1 19 ]
+[v i2c_int_handler@data_read data_read `uc  1 a 1 36 ]
 "81
-[v i2c_int_handler@msg_ready msg_ready `uc  1 a 1 18 ]
+[v i2c_int_handler@msg_ready msg_ready `uc  1 a 1 35 ]
 "78
-[v i2c_int_handler@i2c_data i2c_data `uc  1 a 1 17 ]
+[v i2c_int_handler@i2c_data i2c_data `uc  1 a 1 34 ]
 "82
-[v i2c_int_handler@msg_to_send msg_to_send `uc  1 a 1 16 ]
+[v i2c_int_handler@msg_to_send msg_to_send `uc  1 a 1 33 ]
 "83
-[v i2c_int_handler@overrun_error overrun_error `uc  1 a 1 15 ]
+[v i2c_int_handler@overrun_error overrun_error `uc  1 a 1 32 ]
 "80
-[v i2c_int_handler@data_written data_written `uc  1 a 1 14 ]
-"244
+[v i2c_int_handler@data_written data_written `uc  1 a 1 31 ]
+"240
 } 0
-"315
+"311
 [v _readMessages readMessages `(v  1 e 0 0 ]
 {
-"320
-[v readMessages@buf buf `[5]uc  1 a 5 52 ]
-"357
+"316
+[v readMessages@buf buf `[5]uc  1 a 5 6 ]
+"353
 } 0
 "30
 [v _start_i2c_slave_reply start_i2c_slave_reply `(v  1 e 0 0 ]
 {
 [v start_i2c_slave_reply@length length `uc  1 a 1 wreg ]
 [v start_i2c_slave_reply@length length `uc  1 a 1 wreg ]
-[v start_i2c_slave_reply@msg msg `*.39uc  1 p 2 46 ]
+[v start_i2c_slave_reply@msg msg `*.39uc  1 p 2 0 ]
 "32
-[v start_i2c_slave_reply@length length `uc  1 a 1 50 ]
+[v start_i2c_slave_reply@length length `uc  1 a 1 4 ]
 "44
 } 0
 "48
@@ -1267,7 +1267,7 @@
 {
 [v handle_start@data_read data_read `uc  1 a 1 wreg ]
 [v handle_start@data_read data_read `uc  1 a 1 wreg ]
-[v handle_start@data_read data_read `uc  1 a 1 46 ]
+[v handle_start@data_read data_read `uc  1 a 1 0 ]
 "69
 } 0
 "126 C:\Users\ECE4534\Documents\GitHub\Motor_Controller_PIC/src/messages.c
@@ -1275,34 +1275,34 @@
 {
 [v ToMainHigh_sendmsg@length length `uc  1 a 1 wreg ]
 [v ToMainHigh_sendmsg@length length `uc  1 a 1 wreg ]
-[v ToMainHigh_sendmsg@msgtype msgtype `uc  1 p 1 5 ]
-[v ToMainHigh_sendmsg@data data `*.39v  1 p 2 6 ]
+[v ToMainHigh_sendmsg@msgtype msgtype `uc  1 p 1 22 ]
+[v ToMainHigh_sendmsg@data data `*.39v  1 p 2 23 ]
 "132
-[v ToMainHigh_sendmsg@length length `uc  1 a 1 8 ]
+[v ToMainHigh_sendmsg@length length `uc  1 a 1 25 ]
 "133
 } 0
 "24
 [v i2_send_msg send_msg `(c  1 e 1 0 ]
 {
 [s S660 __msg 13 `uc 1 full 1 0 `uc 1 length 1 1 `uc 1 msgtype 1 2 `[10]uc 1 data 10 3 ]
-[v i2send_msg@qmsg send_msg `*.39S660  1 a 2 3 ]
-[v i2send_msg@tlength send_msg `ui  1 a 2 0 ]
-[v i2send_msg@slot send_msg `uc  1 a 1 2 ]
+[v i2send_msg@qmsg send_msg `*.39S660  1 a 2 20 ]
+[v i2send_msg@tlength send_msg `ui  1 a 2 17 ]
+[v i2send_msg@slot send_msg `uc  1 a 1 19 ]
 [s S665 __msg_queue 54 `[4]S660 1 queue 52 0 `uc 1 cur_write_ind 1 52 `uc 1 cur_read_ind 1 53 ]
-[v i2send_msg@qptr qptr `*.39S665  1 p 2 56 ]
-[v i2send_msg@length length `uc  1 p 1 58 ]
-[v i2send_msg@msgtype msgtype `uc  1 p 1 59 ]
-[v i2send_msg@data data `*.39v  1 p 2 60 ]
+[v i2send_msg@qptr qptr `*.39S665  1 p 2 10 ]
+[v i2send_msg@length length `uc  1 p 1 12 ]
+[v i2send_msg@msgtype msgtype `uc  1 p 1 13 ]
+[v i2send_msg@data data `*.39v  1 p 2 14 ]
 "61
 } 0
 "11 C:\Program Files\Microchip\xc8\v1.30\sources\common\memcpy.c
 [v i2_memcpy memcpy `(*.39v  1 e 2 0 ]
 {
-[v i2memcpy@s memcpy `*.39Cuc  1 a 2 54 ]
-[v i2memcpy@d memcpy `*.39uc  1 a 2 52 ]
-[v i2memcpy@d1 d1 `*.39v  1 p 2 46 ]
-[v i2memcpy@s1 s1 `*.39Cv  1 p 2 48 ]
-[v i2memcpy@n n `ui  1 p 2 50 ]
+[v i2memcpy@s memcpy `*.39Cuc  1 a 2 8 ]
+[v i2memcpy@d memcpy `*.39uc  1 a 2 6 ]
+[v i2memcpy@d1 d1 `*.39v  1 p 2 0 ]
+[v i2memcpy@s1 s1 `*.39Cv  1 p 2 2 ]
+[v i2memcpy@n n `ui  1 p 2 4 ]
 "32
 } 0
 "228 C:\Users\ECE4534\Documents\GitHub\Motor_Controller_PIC/src/messages.c
@@ -1325,7 +1325,7 @@
 {
 [s S660 __msg 13 `uc 1 full 1 0 `uc 1 length 1 1 `uc 1 msgtype 1 2 `[10]uc 1 data 10 3 ]
 [s S665 __msg_queue 54 `[4]S660 1 queue 52 0 `uc 1 cur_write_ind 1 52 `uc 1 cur_read_ind 1 53 ]
-[v i2check_msg@qptr qptr `*.39S665  1 p 2 46 ]
+[v i2check_msg@qptr qptr `*.39S665  1 p 2 0 ]
 "224
 } 0
 "202
