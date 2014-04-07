@@ -18,4 +18,8 @@ void init_uart_recv(uart_comm *);
 void uart_send_int_handler();
 void uart_retrieve_buffer(int length, unsigned char*);
 
+
+//TODO Remove after testing
+void uart_recv_int_handler();
+
 #endif

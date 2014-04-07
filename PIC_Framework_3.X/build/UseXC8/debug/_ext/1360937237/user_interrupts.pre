@@ -5961,6 +5961,10 @@ void init_uart_recv(uart_comm *);
 void uart_send_int_handler();
 void uart_retrieve_buffer(int length, unsigned char*);
 
+
+
+void uart_recv_int_handler();
+
 # 7 "../src/my_i2c.h"
 typedef struct __i2c_comm {
 unsigned char buffer[10];
@@ -5988,37 +5992,65 @@ unsigned char i2c_master_send(unsigned char,unsigned char *);
 unsigned char i2c_master_recv(unsigned char);
 void readMessages();
 
-# 17 "../src/user_interrupts.c"
+# 1 "../src/timer0_thread.h"
+typedef struct __timer0_thread_struct {
+
+int data;
+} timer0_thread_struct;
+
+int timer0_lthread(timer0_thread_struct *,int,int,unsigned char*);
+
+# 37 "../src/motor_commands.h"
+int fwd_state = 1;
+int rev_state = 1;
+int left_state = 1;
+int right_state = 1;
+
+
+int maxTickZero = 605;
+int maxTickOne = 600;
+
+int timer0Counter, timer1Counter;
+unsigned char motorEncoderBuffer[5];
+
+void forward();
+void reverse();
+void turnLeft();
+void turnRight();
+void stop();
+void motorEncoder();
+void alignment();
+
+int msgForMotorcontroller(unsigned char* msgbuffer);
+
+# 19 "../src/user_interrupts.c"
 void timer0_int_handler() {
-unsigned int val;
-int length, msgtype;
 
-# 27
-{ LATBbits.LATB1 = 1; };
-{ LATBbits.LATB1 = 0; };
+{ LATCbits.LATC2 = 1; };
+{ LATCbits.LATC2 = 0; };
 
 
+timer0Counter++;
 
-WriteTimer0(0);
+WriteTimer0(0xCF);
 
-
-
-length = FromMainHigh_recvmsg(sizeof (val), (unsigned char *) &msgtype, (void *) &val);
-if (length == sizeof (val)) {
-ToMainHigh_sendmsg(sizeof (val), 10, (void *) &val);
-}
+# 35
 }
 
 
 
 
 void timer1_int_handler() {
-unsigned int result;
 
-# 52
-result = ReadTimer1();
-ToMainLow_sendmsg(0, 11, (void *) 0);
+{ LATCbits.LATC2 = 1; };
+{ LATCbits.LATC2 = 0; };
+{ LATCbits.LATC2 = 1; };
+{ LATCbits.LATC2 = 0; };
 
 
-WriteTimer1(0);
+timer1Counter++;
+
+WriteTimer1(0xFFCF);
+
+# 57
 }

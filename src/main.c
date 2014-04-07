@@ -19,6 +19,7 @@
 #include "uart_thread.h"
 #include "timer1_thread.h"
 #include "timer0_thread.h"
+#include "motor_commands.h"
 
 
 
@@ -198,6 +199,7 @@ void main(void) {
     timer1_thread_struct t1thread_data; // info for timer1_lthread
     timer0_thread_struct t0thread_data; // info for timer0_lthread
 
+
     unsigned char config1 = 0x00, config2 = 0x00, portconfig = 0x00;
 
 #ifdef __USE18F2680
@@ -238,10 +240,17 @@ void main(void) {
     init_queues();
 
 #ifndef __USE18F26J50
-    // set direction for PORTB to output
-    TRISB = 0x0;
-    LATB = 0x0;
+    //    // set direction for PORTB to output
+    //    TRISB = 0x0;
+    //    LATB = 0x0;
 #endif
+    PORTB = 0xFF;
+
+
+
+    // Setup PORTA for debug pins.
+    TRISA = 0x0;
+    LATA = 0x0;
 
     // how to set up PORTA for input (for the V4 board with the PIC2680)
     /*
@@ -252,8 +261,10 @@ void main(void) {
             TRISA = 0x0F;	// set RA3-RA0 to inputs
      */
 
+
+
     // initialize Timers
-    OpenTimer0(TIMER_INT_ON & T0_8BIT & T0_SOURCE_INT & T0_PS_1_16);
+    OpenTimer0(TIMER_INT_ON & T0_8BIT & T0_SOURCE_EXT & T0_PS_1_1);
 
 #ifdef __USE18F26J50
     // MTJ added second argument for OpenTimer1()
@@ -262,16 +273,17 @@ void main(void) {
 #ifdef __USE18F46J50
     OpenTimer1(TIMER_INT_ON & T1_SOURCE_FOSC_4 & T1_PS_1_8 & T1_16BIT_RW & T1_OSC1EN_OFF & T1_SYNC_EXT_OFF, 0x0);
 #else
-    OpenTimer1(TIMER_INT_ON & T1_PS_1_8 & T1_16BIT_RW & T1_SOURCE_INT & T1_OSC1EN_OFF & T1_SYNC_EXT_OFF);
+    OpenTimer1(TIMER_INT_ON & T1_PS_1_1 & T1_16BIT_RW & T1_SOURCE_EXT & T1_OSC1EN_OFF & T1_SYNC_EXT_OFF);
+    WriteTimer1(0xFFCF);
 #endif
 #endif
+
+
 
     // Decide on the priority of the enabled peripheral interrupts
     // 0 is low, 1 is high
     // Timer1 interrupt
     IPR1bits.TMR1IP = 0;
-    // USART RX interrupt
-    IPR1bits.RCIP = 0;
     // USART TX interrupt
     IPR1bits.TXIP = 0;
     // I2C interrupt
@@ -329,12 +341,15 @@ void main(void) {
     // enable high-priority interrupts and low-priority interrupts
     enable_interrupts();
 
+
     // loop forever
     // This loop is responsible for "handing off" messages to the subroutines
     // that should get them.  Although the subroutines are not threads, but
     // they can be equated with the tasks in your task diagram if you
     // structure them properly.
     while (1) {
+
+
         // Call a routine that blocks until either on the incoming
         // messages queues has a message (this may put the processor into
         // an idle mode)

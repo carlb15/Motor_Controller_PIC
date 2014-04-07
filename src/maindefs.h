@@ -39,6 +39,7 @@
 
 // Message type definitions
 #define MOTOR_COMMAND 0x01
+#define ENCODER_MSGTYPE 0x07
 #define MSGT_TIMER0 10
 #define MSGT_TIMER1 11
 #define MSGT_MAIN1 20
@@ -55,7 +56,6 @@
 #define MSGT_I2C_MASTER_RECV_FAILED 46
 #define MSGT_ADC_DATA 50
 #define I2C_MESSAGE_LENGTH 10
-#define ENCODER_MSGTYPE 0xaa
 
 #endif
 

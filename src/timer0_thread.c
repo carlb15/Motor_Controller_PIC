@@ -5,6 +5,7 @@
 // This is a "logical" thread that processes messages from TIMER0
 // It is not a "real" thread because there is only the single main thread
 // of execution on the PIC because we are not using an RTOS.
+timer0_thread_struct t0thread_data; // info for timer0_lthread
 
 int timer0_lthread(timer0_thread_struct *tptr, int msgtype, int length, unsigned char *msgbuffer) {
     unsigned int *msgval;

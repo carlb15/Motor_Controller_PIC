@@ -5904,6 +5904,29 @@ extern __nonreentrant void _delaywdt(unsigned long);
 #pragma intrinsic(_delay3)
 extern __nonreentrant void _delay3(unsigned char);
 
+# 37 "../src/motor_commands.h"
+int fwd_state = 1;
+int rev_state = 1;
+int left_state = 1;
+int right_state = 1;
+
+
+int maxTickZero = 605;
+int maxTickOne = 600;
+
+int timer0Counter, timer1Counter;
+unsigned char motorEncoderBuffer[5];
+
+void forward();
+void reverse();
+void turnLeft();
+void turnRight();
+void stop();
+void motorEncoder();
+void alignment();
+
+int msgForMotorcontroller(unsigned char* msgbuffer);
+
 # 10 "../src/messages.h"
 typedef struct __msg {
 unsigned char full;
@@ -6004,20 +6027,16 @@ extern char * strichr(const char *, int);
 extern char * strrchr(const char *, int);
 extern char * strrichr(const char *, int);
 
-# 13 "../src/my_i2c.c"
+# 15 "../src/my_i2c.c"
 static i2c_comm *ic_ptr;
-
 signed char length;
-unsigned char msgtype;
 unsigned char last_reg_recvd;
 signed char status;
-
-
-
-
 unsigned char msgbuffer[20];
 
-# 30
+
+
+
 void start_i2c_slave_reply(unsigned char length, unsigned char *msg) {
 
 for (ic_ptr->outbuflen = 0; ic_ptr->outbuflen < length; ic_ptr->outbuflen++) {
@@ -6031,7 +6050,6 @@ SSPBUF = ic_ptr->outbuffer[0];
 
 
 SSPCON1bits.CKP = 1;
-
 }
 
 
@@ -6059,7 +6077,7 @@ ic_ptr->status = 0x6;
 }
 }
 
-# 77
+# 70
 void i2c_int_handler() {
 unsigned char i2c_data;
 unsigned char data_read = 0;
@@ -6207,7 +6225,9 @@ ic_ptr->error_count++;
 ic_ptr->error_code = 0x7;
 }
 
-if (msg_ready){
+if (msg_ready) {
+{ LATCbits.LATC1 = 1; };
+{ LATCbits.LATC1 = 0; };
 
 ic_ptr->buffer[ic_ptr->buflen] = ic_ptr->event_count;
 ToMainHigh_sendmsg(ic_ptr->buflen + 1, 40, (void *) ic_ptr->buffer);
@@ -6225,7 +6245,7 @@ readMessages();
 }
 }
 
-# 246
+# 241
 void init_i2c(i2c_comm * ic) {
 ic_ptr = ic;
 ic_ptr->buflen = 0;
@@ -6239,7 +6259,7 @@ ic_ptr->error_count = 0;
 
 void i2c_configure_slave(unsigned char addr) {
 
-# 269
+# 264
 TRISCbits.TRISC3 = 1;
 TRISCbits.TRISC4 = 1;
 
@@ -6258,7 +6278,7 @@ SSPSTAT |= 0b10000000;
 TRISCbits.TRISC3 = 1;
 TRISCbits.TRISC4 = 1;
 
-# 306
+# 301
 SSPCON2bits.SEN = 1;
 SSPCON1 |= 0b00100000;
 
@@ -6267,17 +6287,18 @@ SSPCON1 |= 0b00100000;
 void readMessages() {
 
 
+{ LATCbits.LATC1 = 1; };
+{ LATCbits.LATC1 = 0; };
 
 
-unsigned char buf[5];
-buf[0] = 0x1;
-buf[1] = 0x2;
-buf[2] = 0x3;
-buf[3] = 0x4;
-buf[4] = 0x5;
-
+motorEncoderBuffer[0] = 0x07;
+motorEncoderBuffer[1] = 0x02;
+motorEncoderBuffer[2] = timer0Counter;
+motorEncoderBuffer[3] = timer1Counter;
+motorEncoderBuffer[4] = timer0Counter ^ timer1Counter;
 length = 5;
-start_i2c_slave_reply(length, buf);
 
-# 353
+start_i2c_slave_reply(length, motorEncoderBuffer);
+
+# 360
 }

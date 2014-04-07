@@ -1,37 +1,29 @@
 Version 3.2 HI-TECH Software Intermediate Code
-[s S148 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S148 . LATB0 LATB1 LATB2 LATB3 LATB4 LATB5 LATB6 LATB7 ]
-[s S149 :1 `uc 1 ]
-[n S149 . LB0 ]
-[s S150 :1 `uc 1 :1 `uc 1 ]
-[n S150 . . LB1 ]
-[s S151 :2 `uc 1 :1 `uc 1 ]
-[n S151 . . LB2 ]
-[s S152 :3 `uc 1 :1 `uc 1 ]
-[n S152 . . LB3 ]
-[s S153 :4 `uc 1 :1 `uc 1 ]
-[n S153 . . LB4 ]
-[s S154 :5 `uc 1 :1 `uc 1 ]
-[n S154 . . LB5 ]
-[s S155 :6 `uc 1 :1 `uc 1 ]
-[n S155 . . LB6 ]
-[s S156 :7 `uc 1 :1 `uc 1 ]
-[n S156 . . LB7 ]
-[u S147 `S148 1 `S149 1 `S150 1 `S151 1 `S152 1 `S153 1 `S154 1 `S155 1 `S156 1 ]
-[n S147 . . . . . . . . . . ]
-"2113 C:\Program Files\Microchip\xc8\v1.30\include\pic18f45j10.h
-[v _LATBbits `VS147 ~T0 @X0 0 e@3978 ]
+[s S158 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S158 . LATC0 LATC1 LATC2 LATC3 LATC4 LATC5 LATC6 LATC7 ]
+[s S159 :1 `uc 1 ]
+[n S159 . LC0 ]
+[s S160 :1 `uc 1 :1 `uc 1 ]
+[n S160 . . LC1 ]
+[s S161 :2 `uc 1 :1 `uc 1 ]
+[n S161 . . LC2 ]
+[s S162 :3 `uc 1 :1 `uc 1 ]
+[n S162 . . LC3 ]
+[s S163 :4 `uc 1 :1 `uc 1 ]
+[n S163 . . LC4 ]
+[s S164 :5 `uc 1 :1 `uc 1 ]
+[n S164 . . LC5 ]
+[s S165 :6 `uc 1 :1 `uc 1 ]
+[n S165 . . LC6 ]
+[s S166 :7 `uc 1 :1 `uc 1 ]
+[n S166 . . LC7 ]
+[u S157 `S158 1 `S159 1 `S160 1 `S161 1 `S162 1 `S163 1 `S164 1 `S165 1 `S166 1 ]
+[n S157 . . . . . . . . . . ]
+"2245 C:\Program Files\Microchip\xc8\v1.30\include\pic18f45j10.h
+[v _LATCbits `VS157 ~T0 @X0 0 e@3979 ]
 "121 C:\Program Files\Microchip\xc8\v1.30\include\plib\timers.h
 [v _WriteTimer0 `(v ~T0 @X0 0 ef1`ui ]
-"79 ../src/messages.h
-[v _FromMainHigh_recvmsg `(c ~T0 @X0 0 ef3`uc`*uc`*v ]
-"64
-[v _ToMainHigh_sendmsg `(c ~T0 @X0 0 ef3`uc`uc`*v ]
-"238 C:\Program Files\Microchip\xc8\v1.30\include\plib\timers.h
-[v _ReadTimer1 `(ui ~T0 @X0 0 ef ]
-"57 ../src/messages.h
-[v _ToMainLow_sendmsg `(c ~T0 @X0 0 ef3`uc`uc`*v ]
-"239 C:\Program Files\Microchip\xc8\v1.30\include\plib\timers.h
+"239
 [v _WriteTimer1 `(v ~T0 @X0 0 ef1`ui ]
 [; ;htc.h: 22: extern void __builtin_software_breakpoint(void);
 [; ;pic18f45j10.h: 44: extern volatile unsigned char PORTA @ 0xF80;
@@ -4636,6 +4628,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;my_uart.h: 17: void init_uart_recv(uart_comm *);
 [; ;my_uart.h: 18: void uart_send_int_handler();
 [; ;my_uart.h: 19: void uart_retrieve_buffer(int length, unsigned char*);
+[; ;my_uart.h: 23: void uart_recv_int_handler();
 [; ;my_i2c.h: 7: typedef struct __i2c_comm {
 [; ;my_i2c.h: 8: unsigned char buffer[10];
 [; ;my_i2c.h: 9: unsigned char buflen;
@@ -4662,68 +4655,119 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;my_i2c.h: 42: unsigned char i2c_master_send(unsigned char,unsigned char *);
 [; ;my_i2c.h: 43: unsigned char i2c_master_recv(unsigned char);
 [; ;my_i2c.h: 44: void readMessages();
-"17 ../src/user_interrupts.c
+[; ;timer0_thread.h: 1: typedef struct __timer0_thread_struct {
+[; ;timer0_thread.h: 3: int data;
+[; ;timer0_thread.h: 4: } timer0_thread_struct;
+[; ;timer0_thread.h: 6: int timer0_lthread(timer0_thread_struct *,int,int,unsigned char*);
+"37 ../src/motor_commands.h
+[v _fwd_state `i ~T0 @X0 1 e ]
+[i _fwd_state
+-> 1 `i
+]
+[; ;motor_commands.h: 37: int fwd_state = 1;
+"38
+[v _rev_state `i ~T0 @X0 1 e ]
+[i _rev_state
+-> 1 `i
+]
+[; ;motor_commands.h: 38: int rev_state = 1;
+"39
+[v _left_state `i ~T0 @X0 1 e ]
+[i _left_state
+-> 1 `i
+]
+[; ;motor_commands.h: 39: int left_state = 1;
+"40
+[v _right_state `i ~T0 @X0 1 e ]
+[i _right_state
+-> 1 `i
+]
+[; ;motor_commands.h: 40: int right_state = 1;
+"43
+[v _maxTickZero `i ~T0 @X0 1 e ]
+[i _maxTickZero
+-> 605 `i
+]
+[; ;motor_commands.h: 43: int maxTickZero = 605;
+"44
+[v _maxTickOne `i ~T0 @X0 1 e ]
+[i _maxTickOne
+-> 600 `i
+]
+[; ;motor_commands.h: 44: int maxTickOne = 600;
+"46
+[v _timer0Counter `i ~T0 @X0 1 e ]
+[v _timer1Counter `i ~T0 @X0 1 e ]
+[; ;motor_commands.h: 46: int timer0Counter, timer1Counter;
+"47
+[v _motorEncoderBuffer `uc ~T0 @X0 -> 5 `i e ]
+[; ;motor_commands.h: 47: unsigned char motorEncoderBuffer[5];
+[; ;motor_commands.h: 49: void forward();
+[; ;motor_commands.h: 50: void reverse();
+[; ;motor_commands.h: 51: void turnLeft();
+[; ;motor_commands.h: 52: void turnRight();
+[; ;motor_commands.h: 53: void stop();
+[; ;motor_commands.h: 54: void motorEncoder();
+[; ;motor_commands.h: 55: void alignment();
+[; ;motor_commands.h: 57: int msgForMotorcontroller(unsigned char* msgbuffer);
+"19 ../src/user_interrupts.c
 [v _timer0_int_handler `(v ~T0 @X0 1 ef ]
 {
-[; ;user_interrupts.c: 17: void timer0_int_handler() {
+[; ;user_interrupts.c: 19: void timer0_int_handler() {
 [e :U _timer0_int_handler ]
 [f ]
-"18
-[v _val `ui ~T0 @X0 1 a ]
-"19
-[v _length `i ~T0 @X0 1 a ]
-[v _msgtype `i ~T0 @X0 1 a ]
-[; ;user_interrupts.c: 18: unsigned int val;
-[; ;user_interrupts.c: 19: int length, msgtype;
-[; ;user_interrupts.c: 27: { LATBbits.LATB1 = 1; };
+[; ;user_interrupts.c: 21: { LATCbits.LATC2 = 1; };
+"21
+{
+[e = . . _LATCbits 0 2 -> -> 1 `i `uc ]
+}
+[; ;user_interrupts.c: 22: { LATCbits.LATC2 = 0; };
+"22
+{
+[e = . . _LATCbits 0 2 -> -> 0 `i `uc ]
+}
+[; ;user_interrupts.c: 25: timer0Counter++;
+"25
+[e ++ _timer0Counter -> 1 `i ]
+[; ;user_interrupts.c: 27: WriteTimer0(0xCF);
 "27
-{
-[e = . . _LATBbits 0 1 -> -> 1 `i `uc ]
+[e ( _WriteTimer0 (1 -> -> 207 `i `ui ]
+[; ;user_interrupts.c: 35: }
+"35
+[e :UE 586 ]
 }
-[; ;user_interrupts.c: 28: { LATBbits.LATB1 = 0; };
-"28
-{
-[e = . . _LATBbits 0 1 -> -> 0 `i `uc ]
-}
-[; ;user_interrupts.c: 32: WriteTimer0(0);
-"32
-[e ( _WriteTimer0 (1 -> -> 0 `i `ui ]
-[; ;user_interrupts.c: 36: length = FromMainHigh_recvmsg(sizeof (val), (unsigned char *) &msgtype, (void *) &val);
-"36
-[e = _length -> ( _FromMainHigh_recvmsg (3 , , -> -> # _val `ui `uc -> &U _msgtype `*uc -> &U _val `*v `i ]
-[; ;user_interrupts.c: 37: if (length == sizeof (val)) {
-"37
-[e $ ! == -> _length `ui -> # _val `ui 586  ]
-{
-[; ;user_interrupts.c: 38: ToMainHigh_sendmsg(sizeof (val), 10, (void *) &val);
-"38
-[e ( _ToMainHigh_sendmsg (3 , , -> -> # _val `ui `uc -> -> 10 `i `uc -> &U _val `*v ]
-"39
-}
-[e :U 586 ]
-[; ;user_interrupts.c: 39: }
-[; ;user_interrupts.c: 40: }
 "40
-[e :UE 585 ]
-}
-"45
 [v _timer1_int_handler `(v ~T0 @X0 1 ef ]
 {
-[; ;user_interrupts.c: 45: void timer1_int_handler() {
+[; ;user_interrupts.c: 40: void timer1_int_handler() {
 [e :U _timer1_int_handler ]
 [f ]
-"46
-[v _result `ui ~T0 @X0 1 a ]
-[; ;user_interrupts.c: 46: unsigned int result;
-[; ;user_interrupts.c: 52: result = ReadTimer1();
-"52
-[e = _result ( _ReadTimer1 ..  ]
-[; ;user_interrupts.c: 53: ToMainLow_sendmsg(0, 11, (void *) 0);
-"53
-[e ( _ToMainLow_sendmsg (3 , , -> -> 0 `i `uc -> -> 11 `i `uc -> -> 0 `i `*v ]
-[; ;user_interrupts.c: 56: WriteTimer1(0);
-"56
-[e ( _WriteTimer1 (1 -> -> 0 `i `ui ]
+[; ;user_interrupts.c: 42: { LATCbits.LATC2 = 1; };
+"42
+{
+[e = . . _LATCbits 0 2 -> -> 1 `i `uc ]
+}
+[; ;user_interrupts.c: 43: { LATCbits.LATC2 = 0; };
+"43
+{
+[e = . . _LATCbits 0 2 -> -> 0 `i `uc ]
+}
+[; ;user_interrupts.c: 44: { LATCbits.LATC2 = 1; };
+"44
+{
+[e = . . _LATCbits 0 2 -> -> 1 `i `uc ]
+}
+[; ;user_interrupts.c: 45: { LATCbits.LATC2 = 0; };
+"45
+{
+[e = . . _LATCbits 0 2 -> -> 0 `i `uc ]
+}
+[; ;user_interrupts.c: 48: timer1Counter++;
+"48
+[e ++ _timer1Counter -> 1 `i ]
+[; ;user_interrupts.c: 50: WriteTimer1(0xFFCF);
+"50
+[e ( _WriteTimer1 (1 -> 65487 `ui ]
 [; ;user_interrupts.c: 57: }
 "57
 [e :UE 587 ]
