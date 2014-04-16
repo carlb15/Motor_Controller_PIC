@@ -17,3 +17,7 @@
 *.out
 *.app
 PIC_Framework_3.X/*
+*.elf
+*.xml
+*.cmf
+*.ini
