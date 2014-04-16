@@ -377,11 +377,7 @@ void main(void) {
             }
         } else {
             switch (msgtype) {
-                case MSGT_TIMER0:
-                {
-                    timer0_lthread(&t0thread_data, msgtype, length, msgbuffer);
-                    break;
-                };
+
                 case MSGT_I2C_DATA:
                 {
                     uart_lthread(&uthread_data, msgtype, length, msgbuffer);
@@ -397,26 +393,26 @@ void main(void) {
 
         // Check the low priority queue
         length = ToMainLow_recvmsg(MSGLEN, &msgtype, (void *) msgbuffer);
-        if (length < 0) {
-            // no message, check the error code to see if it is concern
-            if (length != MSGQUEUE_EMPTY) {
-                // Your code should handle this situation
-            }
-        } else {
-            switch (msgtype) {
-                case MSGT_TIMER1:
-                {
-                    timer1_lthread(&t1thread_data, msgtype, length, msgbuffer);
-                    break;
-                };
-                case MSGT_OVERRUN:
-
-                default:
-                {
-                    // Your code should handle this error
-                    break;
-                };
-            };
-        }
+        //        if (length < 0) {
+        //            // no message, check the error code to see if it is concern
+        //            if (length != MSGQUEUE_EMPTY) {
+        //                // Your code should handle this situation
+        //            }
+        //        } else {
+        //            switch (msgtype) {
+        //                case MSGT_TIMER1:
+        //                {
+        //                    timer1_lthread(&t1thread_data, msgtype, length, msgbuffer);
+        //                    break;
+        //                };
+        //                case MSGT_OVERRUN:
+        //
+        //                default:
+        //                {
+        //                    // Your code should handle this error
+        //                    break;
+        //                };
+        //            };
+        //        }
     }
 }

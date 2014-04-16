@@ -225,7 +225,7 @@ void i2c_int_handler() {
         error_buf[0] = ic_ptr->error_count;
         error_buf[1] = ic_ptr->error_code;
         error_buf[2] = ic_ptr->event_count;
-        ToMainHigh_sendmsg(sizeof (unsigned char) *3, MSGT_I2C_DBG, (void *) error_buf);
+       // ToMainHigh_sendmsg(sizeof (unsigned char) *3, MSGT_I2C_DBG, (void *) error_buf);
         ic_ptr->error_count = 0;
     }
     if (msg_to_send) {

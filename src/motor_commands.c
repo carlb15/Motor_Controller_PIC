@@ -216,8 +216,8 @@ void turnLeft(unsigned char* msgbuffer) {
         case LEFT_90:
             DEBUG_ON(MOTOR_DBG);
             DEBUG_OFF(MOTOR_DBG);
-            maxTickZero = 60;
-            maxTickOne = 60;
+            maxTickZero = 55; // 60
+            maxTickOne = 55; // 60
             msgbuffer[0] = 0x19;
             msgbuffer[1] = 0xDE;
             break;
