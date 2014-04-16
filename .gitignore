@@ -16,7 +16,7 @@
 *.exe
 *.out
 *.app
-PIC_Framework_3.X/*
+Motor_Controller/PIC_Framework_3.X/*
 *.elf
 *.xml
 *.cmf
