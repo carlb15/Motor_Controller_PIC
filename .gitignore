@@ -16,7 +16,11 @@
 *.exe
 *.out
 *.app
-Motor_Controller/PIC_Framework_3.X/*
+PIC_Framework_3.X/dist/*
+PIC_Framework_3.X/build/*
+PIC_Framework_3.X/funclist
+PIC_Framework_3.X/l.obj
+PIC_Framework_3.X/nbproject/*
 *.elf
 *.xml
 *.cmf
