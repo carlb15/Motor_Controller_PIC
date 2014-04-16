@@ -18,26 +18,19 @@ int uart_lthread(uart_thread_struct *uptr, int msgtype, int length, unsigned cha
         if (msgbuffer[0] != MOTOR_ENCODER) {
             DEBUG_ON(UART_THREAD_DBG);
             DEBUG_OFF(UART_THREAD_DBG);
+            // Execute main command.
+            length = msgForMotorcontroller(msgbuffer[0], msgbuffer);
             // Send UART command to motorcontroller
             uart_retrieve_buffer(length, msgbuffer);
-            // Set UART TXF interrupt flag
-            PIE1bits.TX1IE = 0x1;
         } else {
             DEBUG_ON(UART_THREAD_DBG);
             DEBUG_OFF(UART_THREAD_DBG);
             DEBUG_ON(UART_THREAD_DBG);
             DEBUG_OFF(UART_THREAD_DBG);
+            // Setup encoder message
+            length = msgForMotorcontroller(msgbuffer[0], msgbuffer);
             // Send Encoder Data to Master
-            motorEncoderBuffer[0] = 0x07;
-            motorEncoderBuffer[1] = 0x02;
-            motorEncoderBuffer[2] = timer0Counter;
-            motorEncoderBuffer[3] = timer1Counter;
-            motorEncoderBuffer[4] = timer0Counter ^ timer1Counter;
-            length = 5;
-            start_i2c_slave_reply(length, motorEncoderBuffer);
-            // Reset Encoder counts
-            timer0Counter = 0;
-            timer1Counter = 0;
+            start_i2c_slave_reply(length, msgbuffer);
         }
     }
 }

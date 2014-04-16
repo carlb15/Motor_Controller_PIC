@@ -17,7 +17,6 @@ signed char length;
 unsigned char last_reg_recvd;
 signed char status;
 unsigned char msgbuffer[20];
-const int circumference = 38;
 //uart_thread_struct uthread_data; // info for uart_lthread
 //timer1_thread_struct t1thread_data; // info for timer1_lthread
 //timer0_thread_struct t0thread_data; // info for timer0_lthread
@@ -306,70 +305,31 @@ void i2c_configure_slave(unsigned char addr) {
 
 void readMessages() {
 
+    length = I2C_REPLY;
+    
+    if ((ic_ptr->buffer[0]) < 0x13) {
+        // ACK command when not an Encoder request.
 
-    DEBUG_ON(I2C_DBG);
-    DEBUG_OFF(I2C_DBG);
+        DEBUG_ON(I2C_DBG);
+        DEBUG_OFF(I2C_DBG);
 
-    // TODO Command ACK only for now
-    unsigned char buf[4];
-    buf[0] = 0x10;
-    buf[1] = 0x01;
-    buf[2] = 0x04;
-    buf[3] = 0x04;
-    length = 4;
-    //    // Reply to I2C message.
-    start_i2c_slave_reply(length, buf);
+        buff[0] = 0x10;
+        buff[1] = 0x01;
+        buff[2] = 0x04;
+        buff[3] = 0x04;
+        start_i2c_slave_reply(length, buff);
+    } else if ((ic_ptr->buffer[0]) != 0x13) {
+        // NACK command because the command was invalid
 
+        DEBUG_ON(I2C_DBG);
+        DEBUG_OFF(I2C_DBG);
+        DEBUG_ON(I2C_DBG);
+        DEBUG_OFF(I2C_DBG);
 
-    //    // Diameter of Wheel is d = 12.04cm
-    //    // Circumference is C = pi*d = 3.14*12.04 = 37.81cm
-    //    // Distance Traveled = (Encoder Ticks / 360) * Circumference
-    //    int distanceTraveledByMotor0 = (timer0Counter / 360) * circumference;
-    //    int distanceTraveledByMotor1 = (timer1Counter / 360) * circumference;
-    //
-    //    // Send Encoder Data to Master
-    //    motorEncoderBuffer[0] = 0x07;
-    //    motorEncoderBuffer[1] = 0x02;
-    //    motorEncoderBuffer[2] = distanceTraveledByMotor0;
-    //    motorEncoderBuffer[3] = distanceTraveledByMotor1;
-    //    motorEncoderBuffer[4] = distanceTraveledByMotor0 ^ distanceTraveledByMotor1;
-    //    length = 5;
-    //    // Reply to I2C message.
-    //    start_i2c_slave_reply(length, motorEncoderBuffer);
-    //
-    //    timer0Counter = 0;
-    //    timer1Counter = 0;
-
-
-
-
-
-
-    //    switch (ic_ptr->buffer[0]) {
-    //        case 0xaa:
-    //        {
-    //            length = I2C_MESSAGE_LENGTH;
-
-    //            if (bufferFlag == 0x0) {
-    //                start_i2c_slave_reply(length, buff);
-    //            } else {
-    //                start_i2c_slave_reply(length, buff);
-    //
-    //            }
-    //            break;
-    //        }
-    //        case 0xa8:
-    //        {
-    //            length = 1;
-    //            buf[0] = 0x3A;
-    //            break;
-    //        }
-    //        case 0xa9:
-    //        {
-    //            length = 1;
-    //            buf[0] = 0xA3;
-    //            break;
-    //        }
-    //    };
-
+        buff[0] = 0x11;
+        buff[1] = 0x01;
+        buff[2] = 0x04;
+        buff[3] = 0x04;
+        start_i2c_slave_reply(length, buff);
+    }
 }

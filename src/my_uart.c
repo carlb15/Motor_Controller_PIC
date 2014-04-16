@@ -26,19 +26,11 @@ void uart_send_int_handler() {
 }
 
 void uart_retrieve_buffer(int length, unsigned char* msgbuffer) {
-
+    // Pass buffer to UART TX to send to the motorcontroller.
     uc_ptr->Tx_buflen = 0;
-
-    // Go Forward without a degree
-    if (msgbuffer[0] == 0x01 && msgbuffer[4] == 0) {
-        // Get the length of motor command.
-        uc_ptr->msg_length = 2;
-        uc_ptr->Tx_buffer[0] = msgbuffer[2];
-        uc_ptr->Tx_buffer[1] = msgbuffer[3];
-    } else if (msgbuffer[0] == 0x05) {
-        // Get the length of motor command.
-        uc_ptr->msg_length = 2;
-        uc_ptr->Tx_buffer[0] = 0x00;
-        uc_ptr->Tx_buffer[1] = 0x00;
-    }
+    uc_ptr->msg_length = length;
+    uc_ptr->Tx_buffer[0] = msgbuffer[0];
+    uc_ptr->Tx_buffer[1] = msgbuffer[1];
+    // Set UART TXF interrupt flag
+    PIE1bits.TX1IE = 0x1;
 }

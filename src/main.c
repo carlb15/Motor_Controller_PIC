@@ -249,8 +249,18 @@ void main(void) {
 
 
     // Setup PORTA for debug pins.
-    TRISA = 0x0;
-    LATA = 0x0;
+    TRISAbits.RA0 = 0;
+    TRISAbits.RA1 = 0;
+    TRISAbits.RA2 = 0;
+    TRISAbits.RA3 = 0;
+    LATAbits.LATA0 = 0;
+    LATAbits.LATA1 = 0;
+    LATAbits.LATA2 = 0;
+    LATAbits.LATA3 = 0;
+
+    // Setup PORTC1 for a debug pin.
+    TRISCbits.RC1 = 0x0;
+    LATCbits.LATC1 = 0x0;
 
     // how to set up PORTA for input (for the V4 board with the PIC2680)
     /*
@@ -335,8 +345,7 @@ void main(void) {
 #endif
 #endif
 
-    // initializing buffer flag for I2c
-    bufferFlag = 0x0;
+
     // Peripheral interrupts can have their priority set to high or low
     // enable high-priority interrupts and low-priority interrupts
     enable_interrupts();

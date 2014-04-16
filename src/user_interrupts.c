@@ -22,19 +22,18 @@ void timer0_int_handler() {
     // Reset the timer
     WriteTimer0(0xCF);
 
-    // Flips on each wheel rotation
-    if (timer0Counter >= maxTickZero) {
-        DEBUG_ON(TMR0_DBG);
-        DEBUG_OFF(TMR0_DBG);
+    DEBUG_ON(TMR0_DBG);
+    DEBUG_OFF(TMR0_DBG);
+
+
+    if (ticks_flag) {
+        // Reverse counter to prevent it from going a set distance.
+        ticks0Counter++;
+        //Stops wheels after set number of ticks
+        if (ticks0Counter >= maxTickZero) {
+            WriteUSART(0x00);
+        }
     }
-
-
-
-
-    // Stops wheels after set number of ticks
-    //    if (timer0Counter >= maxTickZero) {
-    //        WriteUSART(0x40);
-    //    }
 }
 
 // A function called by the interrupt handler
@@ -46,17 +45,16 @@ void timer1_int_handler() {
     // Reset the timer
     WriteTimer1(0xFFCF);
 
-    // Flips on each wheel rotation
-    if (timer1Counter >= maxTickOne) {
-        DEBUG_ON(TMR1_DBG);
-        DEBUG_OFF(TMR1_DBG);
+    DEBUG_ON(TMR1_DBG);
+    DEBUG_OFF(TMR1_DBG);
+
+    if (ticks_flag) {
+        // Reverse counter to prevent it from going a set distance.
+        ticks1Counter++;
+        // Stops wheels after set number of ticks
+        if (ticks1Counter >= maxTickOne) {
+            //Stop the motor
+            WriteUSART(0x00);
+        }
     }
-
-
-
-    //        // Stops wheels after set number of ticks
-    //    if (timer1Counter >= maxTickOne) {
-    //        //Stop the motor
-    //        WriteUSART(0xC0);
-    //    }
 }

@@ -17,8 +17,8 @@ typedef struct __i2c_comm {
     unsigned char slave_addr;
 } i2c_comm;
 
-int bufferFlag;
-unsigned char buff[I2C_MESSAGE_LENGTH];
+#define I2C_REPLY 4
+unsigned char buff[I2C_REPLY];
 
 #define I2C_IDLE 0x5
 #define I2C_STARTED 0x6

@@ -15,6 +15,10 @@
 #define ALIGNMENT 0x08
 
 
+// Alignment
+#define ALIGN_L 0
+#define ALIGN_R 1
+
 // Motor Commands
 // Direction
 #define FWD 1
@@ -34,25 +38,45 @@
 #define REV_3 3
 #define REV_4 4
 
-int fwd_state = 1;
-int rev_state = 1;
-int left_state = 1;
-int right_state = 1;
+#define LEFT_15 0x01
+#define LEFT_30 0x02
+#define LEFT_45 0x03
+#define LEFT_60 0x04
+#define LEFT_75 0x05
+#define LEFT_90 0x06
+
+
+#define RIGHT_15 0x07
+#define RIGHT_30 0x08
+#define RIGHT_45 0x09
+#define RIGHT_60 0x0A
+#define RIGHT_75 0x0B
+#define RIGHT_90 0x0C
+
+
+// Calculations for motors:
+// Diameter of Wheel is d = 12.04cm
+// Circumference is C = pi*d = 3.14*12.04 = 37.81cm
+// Distance Traveled = (Encoder Ticks / 360) * Circumference
+int distanceTraveledByMotor0 = 0, distanceTraveledByMotor1 = 0;
+const int circumference = 38;
 
 // Motor Encoder Max ticks
 int maxTickZero = 60;
 int maxTickOne = 60;
 // Motor Encoder counters
 int timer0Counter, timer1Counter;
+int ticks0Counter = 61, ticks1Counter = 61, ticks_flag = 0;
+
 unsigned char motorEncoderBuffer[5];
 
-void forward();
-void reverse();
-void turnLeft();
-void turnRight();
-void stop();
-void motorEncoder();
-void alignment();
-
-int msgForMotorcontroller(unsigned char* msgbuffer);
+void motorEncoder(unsigned char*);
+void forward(unsigned char*);
+void reverse(unsigned char*);
+void turnLeft(unsigned char*);
+void turnRight(unsigned char*);
+void stop(unsigned char*);
+void motorEncoder(unsigned char*);
+void alignment(unsigned char* msgbuffer);
+int msgForMotorcontroller(int msgtype_moto, unsigned char* msgbuffer);
 #endif
