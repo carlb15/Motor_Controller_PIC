@@ -209,7 +209,7 @@ void main(void) {
 #else
 #ifdef __USE18F45J10
     OSCCON = 0x82; // see datasheeet
-    OSCTUNEbits.PLLEN = 1; // Makes the clock exceed the PIC's rated speed if the PLL is on
+    OSCTUNEbits.PLLEN = 0; // Makes the clock exceed the PIC's rated speed if the PLL is on
 #else
 #ifdef __USE18F26J50
     OSCCON = 0xE0; // see datasheeet
@@ -338,7 +338,7 @@ void main(void) {
     // Calculated Baud Rate = 48MHz / (4*(624 + 1)) = 19200
     // Error (19200 - 19200) / 19200 = 0
     OpenUSART(USART_TX_INT_OFF & USART_RX_INT_ON & USART_ASYNCH_MODE & USART_EIGHT_BIT &
-            USART_CONT_RX & USART_BRGH_HIGH, 155);
+            USART_CONT_RX & USART_BRGH_HIGH, 39);
     BAUDCONbits.BRG16 = 0;
     RCSTAbits.SPEN = 1;
     RCSTAbits.CREN = 1;
