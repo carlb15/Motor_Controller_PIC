@@ -7,11 +7,11 @@
 
 #ifndef DEBUG_H
 #define DEBUG_H
-#define I2C_DBG LATAbits.LATA0
-#define UART_THREAD_DBG LATAbits.LATA1
-#define TMR0_DBG LATAbits.LATA2
-#define TMR1_DBG LATAbits.LATA3
-#define MOTOR_DBG LATCbits.LATC1
+#define I2C_DBG LATBbits.LATB5
+#define UART_THREAD_DBG LATBbits.LATB4
+#define TMR0_DBG LATBbits.LATB3
+#define TMR1_DBG LATBbits.LATB2
+#define MOTOR_DBG LATBbits.LATB1
 
 // Define this to turn on instrumentation
 #define DO_DEBUG

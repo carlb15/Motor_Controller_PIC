@@ -37,8 +37,10 @@
 #include <p18cxxx.h>
 #endif
 
-// Message type definitions
+// Message type
 #define MOTOR_COMMAND 0x01
+#define RIGHTTURN 0x04
+#define MOTORLEN 0x06
 #define ENCODER_MSGTYPE 0x07
 #define MSGT_TIMER0 10
 #define MSGT_TIMER1 11

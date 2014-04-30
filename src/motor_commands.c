@@ -12,6 +12,8 @@ int msgForMotorcontroller(int msgtype_moto, unsigned char* msgbuffer) {
     int length;
     ticks_flag = 0;
 
+    currentMsgtype = msgtype_moto;
+
     switch (msgtype_moto) {
         case MOTOR_COMMAND:
             // Motor commands direction.
@@ -32,7 +34,17 @@ int msgForMotorcontroller(int msgtype_moto, unsigned char* msgbuffer) {
             } else if (msgbuffer[2] == RIGHT) {
                 DEBUG_ON(MOTOR_DBG);
                 DEBUG_OFF(MOTOR_DBG);
-                turnRight(msgbuffer);
+                if (msgbuffer[4] != 0x07) {
+                    if (postRight) {
+                        postRight = 2;
+                        turnRight(msgbuffer);
+                    } else {
+                        postRight = 1;
+                        forwardAdjusted(msgbuffer);
+                    }
+                } else {
+                    turnRight(msgbuffer);
+                }
             }
 
             length = 2;
@@ -91,22 +103,25 @@ void alignment(unsigned char* msgbuffer) {
     ticks_flag = 1;
     ticks0Counter = 0;
     ticks1Counter = 0;
-    maxTickZero = 3;
-    maxTickOne = 3;
+    maxTickZero = 5;
+    maxTickOne = 5;
+    postAlignFlag = 1;
 
     switch (msgbuffer[2]) {
         case ALIGN_L:
             DEBUG_ON(MOTOR_DBG);
             DEBUG_OFF(MOTOR_DBG);
-            msgbuffer[0] = 0x5F;
-            msgbuffer[1] = 0xA0;
+         
+            msgbuffer[0] = 0x55; // motor 0 - fwd
+            msgbuffer[1] = 0xA5; // motor 1 - rev
             break;
 
         case ALIGN_R:
             DEBUG_ON(MOTOR_DBG);
             DEBUG_OFF(MOTOR_DBG);
-            msgbuffer[0] = 0x19;
-            msgbuffer[1] = 0xDE;
+
+            msgbuffer[0] = 0x1E; // motor 0  - rev
+            msgbuffer[1] = 0xC8; // motor 1  - fwd
             break;
 
         default:
@@ -137,8 +152,8 @@ void forward(unsigned char* msgbuffer) {
     switch (msgbuffer[3]) {
 
         case FWD_1:
-            msgbuffer[0] = 0x51;
-            msgbuffer[1] = 0xCF;
+            msgbuffer[0] = 0x48; // 72
+            msgbuffer[1] = 0xC8; // 200
             break;
         case FWD_2:
             msgbuffer[0] = 0x61;
@@ -155,6 +170,18 @@ void forward(unsigned char* msgbuffer) {
         default:
             break;
     }
+}
+
+void forwardAdjusted(unsigned char* msgbuffer) {
+    maxTickZero = 40;
+    maxTickOne = 40;
+    ticks0Counter = 0;
+    ticks1Counter = 0;
+    ticks_flag = 1;
+
+    // Forward 1
+    msgbuffer[0] = 0x51;
+    msgbuffer[1] = 0xCF;
 }
 
 void reverse(unsigned char* msgbuffer) {
@@ -193,6 +220,10 @@ void turnLeft(unsigned char* msgbuffer) {
 
     switch (msgbuffer[4]) {
         case LEFT_15:
+            maxTickZero = 15;
+            maxTickOne = 15;
+            msgbuffer[0] = 0x5F;
+            msgbuffer[1] = 0xA0;
             break;
 
         case LEFT_30:
@@ -216,8 +247,8 @@ void turnLeft(unsigned char* msgbuffer) {
         case LEFT_90:
             DEBUG_ON(MOTOR_DBG);
             DEBUG_OFF(MOTOR_DBG);
-            maxTickZero = 55; // 60
-            maxTickOne = 55; // 60
+            maxTickZero = 72;
+            maxTickOne = 72;
             msgbuffer[0] = 0x19;
             msgbuffer[1] = 0xDE;
             break;
@@ -234,6 +265,10 @@ void turnRight(unsigned char* msgbuffer) {
 
     switch (msgbuffer[4]) {
         case RIGHT_15:
+            maxTickZero = 15;
+            maxTickOne = 15;
+            msgbuffer[0] = 0x19;
+            msgbuffer[1] = 0xDE;
             break;
 
         case RIGHT_30:
@@ -257,10 +292,10 @@ void turnRight(unsigned char* msgbuffer) {
         case RIGHT_90:
             DEBUG_ON(MOTOR_DBG);
             DEBUG_OFF(MOTOR_DBG);
-            maxTickZero = 60;
-            maxTickOne = 60;
-            msgbuffer[0] = 0x5F;
-            msgbuffer[1] = 0xA0;
+            maxTickZero = 80;
+            maxTickOne = 90;
+            msgbuffer[0] = 0x71;
+            msgbuffer[1] = 0x9E;
             break;
 
         default:

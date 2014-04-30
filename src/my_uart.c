@@ -6,6 +6,7 @@
 #endif
 #include "my_uart.h"
 #include "my_i2c.h"
+#include "motor_commands.h"
 
 static uart_comm *uc_ptr;
 

@@ -53,6 +53,8 @@
 #define RIGHT_75 0x0B
 #define RIGHT_90 0x0C
 
+// Realignment Offset
+#define REALIGN_OFFSET 13
 
 // Calculations for motors:
 // Diameter of Wheel is d = 12.04cm
@@ -64,14 +66,18 @@ const int circumference = 38;
 // Motor Encoder Max ticks
 int maxTickZero = 60;
 int maxTickOne = 60;
-// Motor Encoder counters
-int timer0Counter, timer1Counter;
-int ticks0Counter = 61, ticks1Counter = 61, ticks_flag = 0;
+int postRight = 0;
+int postAlignRight = 0, postAlignFlag = 0;
 
+// Motor Encoder counters
+int timer0Counter, timer1Counter, currentMsgtype;
+int ticks0Counter = 61, ticks1Counter = 61, ticks_flag = 0;
+unsigned char motorBuffer[6];
 unsigned char motorEncoderBuffer[5];
 
 void motorEncoder(unsigned char*);
 void forward(unsigned char*);
+void forwardAdjusted(unsigned char*);
 void reverse(unsigned char*);
 void turnLeft(unsigned char*);
 void turnRight(unsigned char*);

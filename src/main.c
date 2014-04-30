@@ -248,30 +248,17 @@ void main(void) {
 
 
 
-    // Setup PORTA for debug pins.
-    TRISAbits.RA0 = 0;
-    TRISAbits.RA1 = 0;
-    TRISAbits.RA2 = 0;
-    TRISAbits.RA3 = 0;
-    LATAbits.LATA0 = 0;
-    LATAbits.LATA1 = 0;
-    LATAbits.LATA2 = 0;
-    LATAbits.LATA3 = 0;
-
-    // Setup PORTC1 for a debug pin.
-    TRISCbits.RC1 = 0x0;
-    LATCbits.LATC1 = 0x0;
-
-    // how to set up PORTA for input (for the V4 board with the PIC2680)
-    /*
-            PORTA = 0x0;	// clear the port
-            LATA = 0x0;		// clear the output latch
-            ADCON1 = 0x0F;	// turn off the A2D function on these pins
-            // Only for 40-pin version of this chip CMCON = 0x07;	// turn the comparator off
-            TRISA = 0x0F;	// set RA3-RA0 to inputs
-     */
-
-
+    // Setup PORTBs for debug pins.
+    TRISBbits.RB1 = 0;
+    TRISBbits.RB2 = 0;
+    TRISBbits.RB3 = 0;
+    TRISBbits.RB4 = 0;
+    TRISBbits.RB5 = 0;
+    LATBbits.LATB1 = 0;
+    LATBbits.LATB2 = 0;
+    LATBbits.LATB3 = 0;
+    LATBbits.LATB4 = 0;
+    LATBbits.LATB5 = 0;
 
     // initialize Timers
     OpenTimer0(TIMER_INT_ON & T0_8BIT & T0_SOURCE_EXT & T0_PS_1_1);

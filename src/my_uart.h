@@ -14,6 +14,7 @@ typedef struct __uart_comm {
     unsigned char msg_length;
 } uart_comm;
 
+int changeToNewState;
 void init_uart_recv(uart_comm *);
 void uart_send_int_handler();
 void uart_retrieve_buffer(int length, unsigned char*);
