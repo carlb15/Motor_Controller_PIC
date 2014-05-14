@@ -21,7 +21,9 @@ int uart_lthread(uart_thread_struct *uptr, int msgtype, int length, unsigned cha
             // Execute main command.
             length = msgForMotorcontroller(msgbuffer[0], msgbuffer);
             // Send UART command to motorcontroller
-            uart_retrieve_buffer( length, msgbuffer);
+            if (uart_retrieve_buffer(length, msgbuffer) == 0) {
+                ToMainHigh_sendmsg(length, msgtype, (void*) msgbuffer);
+            }
         } else {
             DEBUG_ON(UART_THREAD_DBG);
             DEBUG_OFF(UART_THREAD_DBG);

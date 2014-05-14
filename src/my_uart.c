@@ -26,12 +26,17 @@ void uart_send_int_handler() {
     }
 }
 
-void uart_retrieve_buffer(int length, unsigned char* msgbuffer) {
-    // Pass buffer to UART TX to send to the motorcontroller.
-    uc_ptr->Tx_buflen = 0;
-    uc_ptr->msg_length = length;
-    uc_ptr->Tx_buffer[0] = msgbuffer[0];
-    uc_ptr->Tx_buffer[1] = msgbuffer[1];
-    // Set UART TXF interrupt flag
-    PIE1bits.TX1IE = 0x1;
+int uart_retrieve_buffer(int length, unsigned char* msgbuffer) {
+
+    if (!BusyUSART()) {
+        // Pass buffer to UART TX to send to the motorcontroller.
+        uc_ptr->Tx_buflen = 0;
+        uc_ptr->msg_length = length;
+        uc_ptr->Tx_buffer[0] = msgbuffer[0];
+        uc_ptr->Tx_buffer[1] = msgbuffer[1];
+        // Set UART TXF interrupt flag
+        PIE1bits.TX1IE = 0x1;
+        return 1;
+    }
+    return 0;
 }

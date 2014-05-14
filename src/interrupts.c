@@ -3,6 +3,7 @@
 #include "user_interrupts.h"
 #include "messages.h"
 #include "debug.h"
+#include "stop_sensor.h"
 
 //----------------------------------------------------------------------------
 // Note: This code for processing interrupts is configured to allow for high and
@@ -88,6 +89,7 @@ void InterruptHandlerHigh() {
     // We need to check the interrupt flag of each enabled high-priority interrupt to
     // see which device generated this interrupt.  Then we can call the correct handler.
 
+
     // check to see if we have an I2C interrupt
     if (PIR1bits.SSPIF) {
         // clear the interrupt flag
@@ -102,6 +104,7 @@ void InterruptHandlerHigh() {
         // call whatever handler you want (this is "user" defined)
         timer0_int_handler();
     }
+
 
     // The *last* thing I do here is check to see if we can
     // allow the processor to go to sleep
@@ -124,15 +127,20 @@ interrupt low_priority
 
 void InterruptHandlerLow() {
 
+
     // check to see if we have an interrupt on timer 1
     if (PIR1bits.TMR1IF) {
         PIR1bits.TMR1IF = 0; //clear interrupt flag
         timer1_int_handler();
     }
-
-    // check to see if we have an interrupt on USART TXF
-    if (PIR1bits.TX1IF && PIE1bits.TX1IE) {
-        uart_send_int_handler();
+    if (checkStopSensorFlag()) {
+        // check to see if we have an interrupt on USART TXF
+        if (PIR1bits.TX1IF && PIE1bits.TX1IE) {
+            uart_send_int_handler();
+        }
+    } else if (stopFlag) {
+        stopFlag = 0;
+        WriteUSART(0x00);
     }
 }
 

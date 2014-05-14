@@ -20,6 +20,7 @@
 #include "timer1_thread.h"
 #include "timer0_thread.h"
 #include "motor_commands.h"
+#include "stop_sensor.h"
 
 
 
@@ -188,6 +189,7 @@ The PIC selected is not supported or the preprocessor directives are wrong.
 
 void main(void) {
     char c;
+    int count = 0;
     signed char length;
     unsigned char msgtype;
     unsigned char last_reg_recvd;
@@ -245,9 +247,6 @@ void main(void) {
     //    LATB = 0x0;
 #endif
     PORTB = 0xFF;
-
-
-
     // Setup PORTBs for debug pins.
     TRISBbits.RB1 = 0;
     TRISBbits.RB2 = 0;
@@ -259,6 +258,18 @@ void main(void) {
     LATBbits.LATB3 = 0;
     LATBbits.LATB4 = 0;
     LATBbits.LATB5 = 0;
+
+    //line sensor
+    PORTD = 0x0;
+    LATD = 0x0;
+    TRISD3 = 0x1;
+    TRISD4 = 0x1;
+    TRISD5 = 0x1;
+    TRISD6 = 0x1;
+    TRISD7 = 0x1;
+
+
+
 
     // initialize Timers
     OpenTimer0(TIMER_INT_ON & T0_8BIT & T0_SOURCE_EXT & T0_PS_1_1);
@@ -346,6 +357,7 @@ void main(void) {
     while (1) {
 
 
+
         // Call a routine that blocks until either on the incoming
         // messages queues has a message (this may put the processor into
         // an idle mode)
@@ -380,26 +392,6 @@ void main(void) {
 
         // Check the low priority queue
         length = ToMainLow_recvmsg(MSGLEN, &msgtype, (void *) msgbuffer);
-        //        if (length < 0) {
-        //            // no message, check the error code to see if it is concern
-        //            if (length != MSGQUEUE_EMPTY) {
-        //                // Your code should handle this situation
-        //            }
-        //        } else {
-        //            switch (msgtype) {
-        //                case MSGT_TIMER1:
-        //                {
-        //                    timer1_lthread(&t1thread_data, msgtype, length, msgbuffer);
-        //                    break;
-        //                };
-        //                case MSGT_OVERRUN:
-        //
-        //                default:
-        //                {
-        //                    // Your code should handle this error
-        //                    break;
-        //                };
-        //            };
-        //        }
     }
 }
+
